@@ -28,6 +28,21 @@ var APMIdentifiers = [
 	    "qualifierId": "25c1bc8a-801f-4947-a2a6-7721ef971460"
 	  },
 	  {
+	    "qualifierCode": "AS2",
+	    "qualifierLabel": "AS2 Identity",
+	    "qualifierId": "25c1bc8a-801f-4947-a2a6-7721ef971460"
+	  },
+	  {
+	    "qualifierCode": "as2",
+	    "qualifierLabel": "AS2 Identity",
+	    "qualifierId": "25c1bc8a-801f-4947-a2a6-7721ef971460"
+	  },
+	  {
+	    "qualifierCode": "AS2Identity",
+	    "qualifierLabel": "AS2 Identity",
+	    "qualifierId": "25c1bc8a-801f-4947-a2a6-7721ef971460"
+	  },
+	  {
 	    "qualifierCode": "X12 - ISA: 01",
 	    "qualifierLabel": "01 (Duns Number)",
 	    "qualifierId": "dacbb21c-f452-434e-985f-c8c588ebf2f2"

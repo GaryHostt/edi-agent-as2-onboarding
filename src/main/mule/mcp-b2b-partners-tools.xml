@@ -262,7 +262,7 @@ The response includes the newly created partner's id and an URL that the user ca
         "properties": {
           "identifierCode": {
             "type": "string",
-            "description": "Code or type of the identifier"
+            "description": "Code or type of the identifier. For AS2, use \"AS2\" or \"AS2 ID\"."
           },
           "value": {
             "type": "string",

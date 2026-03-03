@@ -41,7 +41,7 @@ Calls to **this app’s MCP server** (Streamable HTTP). Use when the Mule app is
 
 ### Setup
 
-1. Start the Mule app (e.g. `mvn mule:run` or run from Anypoint Code Builder).
+1. Start the Mule app (e.g. `mvn mule:run` or run from Anypoint Code Builder). After a clean build (`mvn clean package`), redeploy by running from ACB or by copying `target/mcp-partner-manager-1.0.0-mule-application.jar` into your Mule runtime `apps/` directory.
 2. Open the **MCP Partner Manager Tools** collection.
 3. **Variables:**
    - **mcp_base** – Base URL (default `https://localhost:8083` from `https.port` in config).
