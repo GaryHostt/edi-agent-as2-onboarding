@@ -73,6 +73,119 @@ write(payload, "application/json")
 			</ee:message>
 		</ee:transform>
 	</flow>
+	<flow name="mcp-b2b-partner-upload-certificate-Flow" doc:id="upload-cert-flow-001" >
+		<mcp:tool-listener doc:name="upload-b2b-partner-certificate" doc:id="upload-cert-tool-001" config-ref="MCP_Server_PartnersAPI" name="upload-b2b-partner-certificate">
+			<reconnect-forever />
+			<mcp:description><![CDATA[Upload a public certificate or identity key for a B2B partner in Anypoint Partner Manager. Returns the certificate UUID (certificateId) for use as partnerCertificateId when calling create-b2b-endpoints for an AS2 Send endpoint. Provide partner name (must already exist), certificate name, type (PUBLIC or IDENTITY_KEY), and PEM content.]]></mcp:description>
+			<mcp:parameters-schema><![CDATA[{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "partnerName": { "type": "string", "description": "Partner profile name in Partner Manager (must already exist)" },
+    "certificateName": { "type": "string", "description": "Display name for the certificate (e.g. freshcorner-as2)" },
+    "certificateType": { "type": "string", "enum": ["PUBLIC", "IDENTITY_KEY"], "description": "PUBLIC = public cert for AS2/HTTPS Send; IDENTITY_KEY = private key for SFTP" },
+    "certificatePem": { "type": "string", "description": "Certificate content in PEM format (include -----BEGIN CERTIFICATE----- / -----END CERTIFICATE-----)" },
+    "passphrase": { "type": "string", "description": "For identity key only; omit or empty for public cert" }
+  },
+  "required": ["partnerName", "certificateName", "certificateType", "certificatePem"]
+}]]></mcp:parameters-schema>
+			<mcp:responses>
+				<mcp:text-tool-response-content text="#[payload.^raw]" />
+			</mcp:responses>
+		</mcp:tool-listener>
+		<logger level="INFO" doc:name="Logger" doc:id="upload-cert-log-001" message="Upload certificate: partnerName=#[payload.partnerName], certificateName=#[payload.certificateName], certificateType=#[payload.certificateType]" />
+		<ee:transform doc:name="Normalize partner name" doc:id="upload-cert-reqname-001">
+			<ee:variables>
+				<ee:set-variable variableName="requestPartnerName"><![CDATA[%dw 2.0
+output application/java
+---
+if (payload.partnerName is Array) payload.partnerName[0] else payload.partnerName]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="retrieve_anypointAccessToken" doc:id="upload-cert-token-001" name="retrieve_anypointAccessToken_Sub_Flow" />
+		<until-successful maxRetries="2" doc:name="Until Successful" doc:id="upload-cert-until-001" millisBetweenRetries="30000">
+			<try doc:name="Try" doc:id="upload-cert-try-001">
+				<os:retrieve doc:name="Retrieve" doc:id="upload-cert-os-001" key="apmPartnerProfiles" objectStore="Object_store_APM_Configs" />
+				<set-variable value="#[payload]" doc:name="apmPartners" doc:id="upload-cert-set-001" variableName="apmPartners" />
+				<error-handler>
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="upload-cert-err-001">
+						<flow-ref doc:name="Sync Partner Profiles" doc:id="upload-cert-sync-001" name="apm-sync-configs-partnerprofiles-Flow"/>
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</until-successful>
+		<set-variable value="#[vars.apmPartners[?($.partnerName == vars.requestPartnerName)].partnerId[0]]" doc:name="partnerId" doc:id="upload-cert-partnerid-001" variableName="partnerId" />
+		<choice doc:name="Partner found?" doc:id="upload-cert-choice-001">
+			<when expression="#[vars.partnerId != null]">
+				<ee:transform doc:name="Build certificate create body" doc:id="upload-cert-dwl-001">
+					<ee:message>
+						<ee:set-payload resource="maps/MCP-Upload-Certificate-to-APM-Certificate-Create.dwl" />
+					</ee:message>
+				</ee:transform>
+				<try doc:name="Try" doc:id="upload-cert-try-http-001">
+					<http:request method="POST" doc:name="Create partner certificate" doc:id="upload-cert-http-001" url="${anypoint.apm.url-prefix}/partners/api/v1/organizations/${anypoint.apm.orgid}/environments/${anypoint.apm.envid}/partnerprofiles/$(vars.partnerId)/certificates">
+						<reconnect-forever />
+						<http:headers><![CDATA[#[output application/java
+---
+{
+	"Authorization" : "Bearer " ++ vars.sessionToken,
+	"Content-Type" : "application/json"
+}]]]></http:headers>
+					</http:request>
+					<error-handler>
+						<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="upload-cert-http-err-001">
+							<set-variable value="#[error.description default error.message default 'Unknown error']" doc:name="errorMessage" doc:id="upload-cert-err-var-001" variableName="apiErrorMessage" />
+							<ee:transform doc:name="API error response" doc:id="upload-cert-err-transform-001">
+								<ee:message>
+									<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	certificateId: null,
+	error: "Certificate upload failed: " ++ vars.apiErrorMessage ++ ". Check partner name, PEM content, and API docs."
+}]]></ee:set-payload>
+								</ee:message>
+							</ee:transform>
+						</on-error-continue>
+					</error-handler>
+				</try>
+				<ee:transform doc:name="Format certificate response" doc:id="upload-cert-resp-001">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+if (payload.error != null) payload
+else {
+	certificateId: payload.id,
+	partnerId: vars.partnerId,
+	partnerName: vars.requestPartnerName,
+	partnerPageUrl: "https://anypoint.mulesoft.com/partnermanager/#/organizations/" ++ p('anypoint.apm.orgid') ++ '/environments/' ++ p('anypoint.apm.envid') ++ '/partners/' ++ vars.partnerId,
+	certificateName: payload.name default null,
+	expires: payload.expires default null
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<ee:transform doc:name="To text response" doc:id="upload-cert-text-001">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output text/plain
+---
+write(payload, "application/json")]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise>
+				<ee:transform doc:name="Partner not found response" doc:id="upload-cert-notfound-001">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output text/plain
+---
+"Partner not found: " ++ vars.requestPartnerName ++ ". Create the partner first with create-b2b-partner-profile or check the name."]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+	</flow>
 	<flow name="mcp-b2b-partner-getpartnerprofiles-Flow" doc:id="e7b8094b-f783-42d7-9e40-f234e7a53b8c" >
 		<mcp:tool-listener doc:name="get-b2b-partner-profiles" doc:id="61ec66b1-b2ff-4c71-bd5a-16e39446dfba" config-ref="MCP_Server_PartnersAPI" name="get-b2b-partner-profiles">
 			<reconnect-forever />
@@ -253,74 +366,59 @@ write(payload, "application/json")
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": [
-          "endpointName",
-          "protocol",
-          "direction",
-          "serverAddress",
-          "port",
-          "authType",
-          "username",
-          "password",
-          "path"
+        "required": ["endpointName", "protocol", "direction"],
+        "allOf": [
+          {
+            "if": { "properties": { "protocol": { "const": "as2" } }, "required": ["protocol"] },
+            "then": {
+              "required": ["hostAs2Identifier", "partnerAs2Identifier", "partnerAs2Url", "partnerCertificateId"],
+              "properties": {
+                "encryptionAlgorithm": { "type": "string", "enum": ["UNENCRYPTED", "AES128_CBC", "AES128_CCM", "AES128_GCM", "AES192_CBC", "AES192_CCM", "AES192_GCM", "AES256_CBC", "AES256_CCM", "AES256_GCM", "AES256_WRAP", "CAST5", "DES_EDE3", "RC2"] },
+                "signatureAlgorithm": { "type": "string", "enum": ["UNSIGNED", "MD5", "SHA1", "SHA224", "SHA256", "SHA384", "SHA512"] },
+                "enforceSecurity": { "type": "string", "enum": ["NONE", "SIGNED", "ENCRYPTED", "SIGNED_ENCRYPTED"] },
+                "isAsyncMdn": { "type": "boolean" },
+                "receiptDeliveryUrl": { "type": "string" }
+              }
+            }
+          },
+          {
+            "if": { "properties": { "protocol": { "const": "sftp" } }, "required": ["protocol"] },
+            "then": { "required": ["serverAddress", "port", "authType", "username", "password", "path"] }
+          }
         ],
         "properties": {
-          "endpointName": {
-            "type": "string",
-            "description": "Name of the endpoint"
-          },
-          "protocol": {
-            "type": "string",
-            "enum": ["sftp", "ftp", "http", "https", "as2"],
-            "description": "Communication protocol"
-          },
-          "direction": {
-            "type": "string",
-            "enum": ["RECEIVE", "SEND"],
-            "description": "Direction of data flow"
-          },
-          "serverAddress": {
-            "type": "string",
-            "description": "Server address for the endpoint"
-          },
-          "port": {
-            "type": "integer",
-            "description": "Port number"
-          },
-          "authType": {
-            "type": "string",
-            "enum": ["BASIC"],
-            "description": "Authentication type"
-          },
-          "username": {
-            "type": "string",
-            "description": "Username for authentication"
-          },
-          "password": {
-            "type": "string",
-            "description": "Password for authentication"
-          },
-          "path": {
-            "type": "string",
-            "description": "Path on the server"
-          },
-          "supportedFormats": {
-            "type": "string",
-            "enum": ["EDI", "NON_EDI"],
-            "description": "Supported file formats"
-          },
-          "pollingFrequency": {
-            "type": ["integer", "null"],
-            "description": "Polling frequency in milliseconds"
-          },
-          "sizeCheckWaitTime": {
-            "type": ["integer", "null"],
-            "description": "Wait time for size check in milliseconds"
-          },
-          "fileNamePattern": {
-            "type": "string",
-            "description": "Pattern for matching or generating filenames"
-          }
+          "endpointName": { "type": "string", "description": "Name of the endpoint" },
+          "protocol": { "type": "string", "enum": ["sftp", "ftp", "http", "https", "as2"], "description": "Communication protocol" },
+          "direction": { "type": "string", "enum": ["RECEIVE", "SEND"], "description": "Direction of data flow" },
+          "description": { "type": "string", "description": "Endpoint description" },
+          "serverAddress": { "type": "string", "description": "Server address for the endpoint (SFTP)" },
+          "port": { "type": "integer", "description": "Port number (SFTP)" },
+          "authType": { "type": "string", "enum": ["BASIC"], "description": "Authentication type (SFTP)" },
+          "username": { "type": "string", "description": "Username for authentication (SFTP)" },
+          "password": { "type": "string", "description": "Password for authentication (SFTP)" },
+          "path": { "type": "string", "description": "Path on the server (SFTP)" },
+          "supportedFormats": { "type": "string", "enum": ["EDI", "NON_EDI"], "description": "Supported file formats" },
+          "pollingFrequency": { "type": ["integer", "null"], "description": "Polling frequency in milliseconds" },
+          "sizeCheckWaitTime": { "type": ["integer", "null"], "description": "Wait time for size check in milliseconds" },
+          "fileNamePattern": { "type": "string", "description": "Pattern for matching or generating filenames" },
+          "hostAs2Identifier": { "type": "string", "description": "Your organization AS2 identifier" },
+          "partnerAs2Identifier": { "type": "string", "description": "Partner AS2 identifier" },
+          "partnerAs2Url": { "type": "string", "description": "Partner AS2 URL for send" },
+          "partnerCertificateId": { "type": "string", "description": "UUID of partner certificate in Partner Manager" },
+          "hostKeystoreId": { "type": "string", "description": "UUID of host keystore (AS2 Receive)" },
+          "enforceSecurity": { "type": "string", "description": "Enforce security level for AS2 Receive" },
+          "requireEncryptedMdn": { "type": "boolean", "description": "Require encrypted MDN (AS2 Receive)" },
+          "mdnSignatureAlgorithm": { "type": "string", "description": "MDN signature algorithm" },
+          "encryptionAlgorithm": { "type": "string", "description": "Encryption algorithm (AS2 Send)" },
+          "signatureAlgorithm": { "type": "string", "description": "Signature algorithm (AS2 Send)" },
+          "messageSubject": { "type": "string", "description": "MIME Subject header (AS2 Send)" },
+          "requireMdn": { "type": "boolean", "description": "Request signed MDN receipt (AS2 Send)" },
+          "isAsyncMdn": { "type": "boolean", "description": "Use asynchronous MDN (AS2 Send)" },
+          "receiptDeliveryUrl": { "type": "string", "description": "URL for async MDN receipt (AS2 Send)" },
+          "connectionTimeout": { "type": "integer", "description": "Connection timeout in milliseconds (AS2 Send)" },
+          "retryInterval": { "type": "integer", "description": "Retry interval in seconds (AS2 Send)" },
+          "maxRetryAttempts": { "type": "integer", "description": "Max retry attempts (AS2 Send)" },
+          "apiManagerId": { "type": "string", "description": "API Manager instance ID (AS2 Receive, optional)" }
         }
       }
     }
@@ -365,6 +463,25 @@ write(payload, "application/json")
 						</ee:message>
 					</ee:transform>
 				</when>
+				<when expression="#[payload.protocol == 'as2' and payload.direction == 'RECEIVE']">
+					<logger level="INFO" doc:name="AS2 Receive" doc:id="a1b2c3d4-e5f6-7890-as2-receive" message="Creating AS2 Receive Endpoint"/>
+					<ee:transform doc:name="AS2 Receive" doc:id="b2c3d4e5-f6a7-8901-as2-receive">
+						<ee:message>
+							<ee:set-payload resource="maps/MCP-Endpoint-Create-Obj-to-APM-AS2-Receive-Endpoint-Create.dwl" />
+						</ee:message>
+					</ee:transform>
+				</when>
+				<when expression="#[payload.protocol == 'as2' and payload.direction == 'SEND']">
+					<logger level="INFO" doc:name="AS2 Send" doc:id="c3d4e5f6-a7b8-9012-as2-send" message="Creating AS2 Send Endpoint"/>
+					<ee:transform doc:name="AS2 Send" doc:id="d4e5f6a7-b8c9-0123-as2-send">
+						<ee:message>
+							<ee:set-payload resource="maps/MCP-Endpoint-Create-Obj-to-APM-AS2-Send-Endpoint-Create.dwl" />
+						</ee:message>
+					</ee:transform>
+				</when>
+				<otherwise>
+					<raise-error type="APP:UNSUPPORTED_PROTOCOL" description="#[&quot;The protocol '&quot; ++ (payload.protocol default &quot;unknown&quot;) ++ &quot;' with direction '&quot; ++ (payload.direction default &quot;unknown&quot;) ++ &quot;' is not currently supported by this onboarding tool.&quot;]" />
+				</otherwise>
 			</choice>
 			<logger level="INFO" doc:name="Logger" doc:id="ba4f0874-6f6c-4981-b4d9-38f78667e26a" message="#[payload]"/>
 			<http:request method="POST" doc:name="Create Endpoint" doc:id="8999fcc7-52a5-4e25-bf19-b34bae1c7700" url="${anypoint.apm.url-prefix}/partners/api/v1/organizations/${anypoint.apm.orgid}/environments/${anypoint.apm.envid}/endpoints">

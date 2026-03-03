@@ -1,0 +1,199 @@
+{
+	"info": {
+		"_postman_id": "partner-manager-apis-001",
+		"name": "Partner Manager APIs",
+		"description": "Anypoint Platform and Partner Manager REST APIs (same endpoints the Mule app calls). Use for direct API testing, debugging, or discovering request/response shapes (e.g. for AS2).",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{ "key": "base_anypoint", "value": "https://anypoint.mulesoft.com" },
+		{ "key": "base_apm", "value": "https://anypoint.mulesoft.com/partnermanager" },
+		{ "key": "org_id", "value": "5f5d5d1d-a1ee-49f3-acb4-5a8bb50f7f8d" },
+		{ "key": "env_id", "value": "edbe4a2c-dc27-4f34-86d1-38dc0e4580e6" },
+		{ "key": "client_id", "value": "" },
+		{ "key": "client_secret", "value": "" },
+		{ "key": "access_token", "value": "" },
+		{ "key": "partner_id", "value": "" }
+	],
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Get OAuth2 Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var json = pm.response.json();",
+									"    if (json.access_token) {",
+									"        pm.collectionVariables.set('access_token', json.access_token);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"grant_type\": \"client_credentials\",\n  \"client_id\": \"{{client_id}}\",\n  \"client_secret\": \"{{client_secret}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_anypoint}}/accounts/api/v2/oauth2/token",
+							"host": ["{{base_anypoint}}"],
+							"path": ["accounts", "api", "v2", "oauth2", "token"]
+						},
+						"description": "Obtain Anypoint Platform OAuth2 access token. Set client_id and client_secret in collection variables, then run this request; access_token is saved automatically for other requests."
+					}
+				}
+			]
+		},
+		{
+			"name": "Partners",
+			"item": [
+				{
+					"name": "GET Certificates",
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{access_token}}", "type": "string" }] },
+						"method": "GET",
+						"url": {
+							"raw": "{{base_apm}}/partners/api/v1/organizations/{{org_id}}/environments/{{env_id}}/certificates",
+							"host": ["{{base_apm}}"],
+							"path": ["partners", "api", "v1", "organizations", "{{org_id}}", "environments", "{{env_id}}", "certificates"]
+						},
+						"description": "List B2B partner certificates (mirrors mcp-b2b-partners-tools GET certificates)."
+					}
+				},
+				{
+					"name": "GET Partner Profiles",
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{access_token}}", "type": "string" }] },
+						"method": "GET",
+						"url": {
+							"raw": "{{base_apm}}/partners/api/v1/organizations/{{org_id}}/environments/{{env_id}}/partnerprofiles?pageSize=200&excludeIdentifiersCount=true&includeHost=false",
+							"host": ["{{base_apm}}"],
+							"path": ["partners", "api", "v1", "organizations", "{{org_id}}", "environments", "{{env_id}}", "partnerprofiles"],
+							"query": [
+								{ "key": "pageSize", "value": "200" },
+								{ "key": "excludeIdentifiersCount", "value": "true" },
+								{ "key": "includeHost", "value": "false" }
+							]
+						},
+						"description": "List partner profiles (mirrors GET partner profiles in the app)."
+					}
+				},
+				{
+					"name": "GET Partner Profile by ID",
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{access_token}}", "type": "string" }] },
+						"method": "GET",
+						"url": {
+							"raw": "{{base_apm}}/partners/api/v1/organizations/{{org_id}}/environments/{{env_id}}/partnerprofiles/{{partner_id}}",
+							"host": ["{{base_apm}}"],
+							"path": ["partners", "api", "v1", "organizations", "{{org_id}}", "environments", "{{env_id}}", "partnerprofiles", "{{partner_id}}"]
+						},
+						"description": "Get a single partner by ID. Set partner_id in collection variables (mirrors apm-lookup-partnerInfo)."
+					}
+				},
+				{
+					"name": "POST Create Partner Profile",
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{access_token}}", "type": "string" }] },
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"partnerType\": \"PARTNER\",\n  \"partnerName\": \"Test Partner\",\n  \"identifiers\": [\n    { \"identifierCode\": \"AS2\", \"value\": \"test-as2-id\" }\n  ],\n  \"contact\": {\n    \"name\": \"Contact Name\",\n    \"email\": \"contact@example.com\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_apm}}/partners/api/v1/organizations/{{org_id}}/environments/{{env_id}}/partnerprofiles",
+							"host": ["{{base_apm}}"],
+							"path": ["partners", "api", "v1", "organizations", "{{org_id}}", "environments", "{{env_id}}", "partnerprofiles"]
+						},
+						"description": "Create a new partner profile (mirrors create APM partner in mcp-b2b-partners-tools)."
+					}
+				},
+				{
+					"name": "POST Create Partner Certificate",
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{access_token}}", "type": "string" }] },
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"my-partner-cert\",\n  \"certificateType\": \"PEM\",\n  \"certificate\": \"-----BEGIN CERTIFICATE-----\\n...replace with actual PEM content...\\n-----END CERTIFICATE-----\"\n}"
+						},
+						"url": {
+							"raw": "{{base_apm}}/partners/api/v1/organizations/{{org_id}}/environments/{{env_id}}/partnerprofiles/{{partner_id}}/certificates",
+							"host": ["{{base_apm}}"],
+							"path": ["partners", "api", "v1", "organizations", "{{org_id}}", "environments", "{{env_id}}", "partnerprofiles", "{{partner_id}}", "certificates"]
+						},
+						"description": "Create a digital certificate for a partner (public cert or identity key). Set partner_id to a valid partner UUID. Returns created certificate with id (use as partnerCertificateId in create-b2b-endpoints for AS2 Send). Mirrors upload-b2b-partner-certificate MCP tool."
+					}
+				}
+			]
+		},
+		{
+			"name": "Endpoints",
+			"item": [
+				{
+					"name": "POST Create Endpoint",
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{access_token}}", "type": "string" }] },
+						"method": "POST",
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"\",\n  \"name\": \"SFTP-Receive-from-TestPartner\",\n  \"description\": \"SFTP Receive endpoint\",\n  \"endpointType\": \"sftp\",\n  \"endpointTypeId\": \"3bcc65e5-040b-47eb-8fc7-27c89225f1bc\",\n  \"endpointRole\": \"RECEIVE\",\n  \"partnerId\": \"{{partner_id}}\",\n  \"environmentId\": \"{{env_id}}\",\n  \"visibility\": \"EXTERNAL\",\n  \"supportedFormatTypes\": \"EDI\",\n  \"config\": {\n    \"authMode\": { \"authType\": \"BASIC\", \"username\": \"user\", \"password\": \"pass\" },\n    \"fileNamePattern\": \"*.edi\",\n    \"path\": \"/inbound\",\n    \"serverAddress\": \"sftp.example.com\",\n    \"serverPort\": 22,\n    \"configName\": \"sftp\",\n    \"credentials\": { \"authType\": \"NONE\" },\n    \"pollingFrequency\": 300000,\n    \"sizeCheckWaitTime\": 1000\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_apm}}/partners/api/v1/organizations/{{org_id}}/environments/{{env_id}}/endpoints",
+							"host": ["{{base_apm}}"],
+							"path": ["partners", "api", "v1", "organizations", "{{org_id}}", "environments", "{{env_id}}", "endpoints"]
+						},
+						"description": "Create an endpoint (SFTP example; replace with AS2 payload for AS2 discovery). Set partner_id to a valid partner UUID."
+					}
+				}
+			]
+		},
+		{
+			"name": "Config & Tracking",
+			"item": [
+				{
+					"name": "GET Custom Attributes",
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{access_token}}", "type": "string" }] },
+						"method": "GET",
+						"url": {
+							"raw": "{{base_apm}}/partners/api/v1/organizations/{{org_id}}/environments/{{env_id}}/customAttributes",
+							"host": ["{{base_apm}}"],
+							"path": ["partners", "api", "v1", "organizations", "{{org_id}}", "environments", "{{env_id}}", "customAttributes"]
+						},
+						"description": "List custom message attributes (mirrors apm-sync-configs)."
+					}
+				},
+				{
+					"name": "GET Tracking Activity Messages",
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{access_token}}", "type": "string" }] },
+						"method": "GET",
+						"url": {
+							"raw": "{{base_apm}}/tracking/api/v1/organizations/{{org_id}}/environments/{{env_id}}/activity/messages",
+							"host": ["{{base_apm}}"],
+							"path": ["tracking", "api", "v1", "organizations", "{{org_id}}", "environments", "{{env_id}}", "activity", "messages"]
+						},
+						"description": "Search B2B transactions / activity messages (mirrors mcp-b2b-tracking-tools). Add query params (e.g. attribute, value) as needed by API."
+					}
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,128 @@
+{
+	"info": {
+		"_postman_id": "mcp-partner-manager-tools-001",
+		"name": "MCP Partner Manager Tools",
+		"description": "MCP server (Streamable HTTP) for this app. List tools and invoke each MCP tool via JSON-RPC 2.0. Ensure the Mule app is running on https.port; disable SSL verification for local self-signed cert if needed.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{ "key": "mcp_base", "value": "https://localhost:8083" },
+		{ "key": "mcp_path", "value": "/" }
+	],
+	"item": [
+		{
+			"name": "List Tools",
+			"request": {
+				"method": "POST",
+				"header": [
+					{ "key": "Accept", "value": "application/json, text/event-stream" },
+					{ "key": "Content-Type", "value": "application/json" }
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 1,\n  \"method\": \"tools/list\",\n  \"params\": {}\n}"
+				},
+				"url": {
+					"raw": "{{mcp_base}}{{mcp_path}}",
+					"host": ["{{mcp_base}}{{mcp_path}}"]
+				},
+				"description": "Returns the list of MCP tools (get-b2b-partner-certificates, get-b2b-partner-profiles, create-b2b-partner-profile, create-b2b-endpoints, search-b2b-transactions) with names and input schemas."
+			}
+		},
+		{
+			"name": "Tool: get-b2b-partner-certificates",
+			"request": {
+				"method": "POST",
+				"header": [
+					{ "key": "Accept", "value": "application/json, text/event-stream" },
+					{ "key": "Content-Type", "value": "application/json" }
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 2,\n  \"method\": \"tools/call\",\n  \"params\": {\n    \"name\": \"get-b2b-partner-certificates\",\n    \"arguments\": {}\n  }\n}"
+				},
+				"url": {
+					"raw": "{{mcp_base}}{{mcp_path}}",
+					"host": ["{{mcp_base}}{{mcp_path}}"]
+				},
+				"description": "Get B2B partner certificates. No arguments."
+			}
+		},
+		{
+			"name": "Tool: get-b2b-partner-profiles",
+			"request": {
+				"method": "POST",
+				"header": [
+					{ "key": "Accept", "value": "application/json, text/event-stream" },
+					{ "key": "Content-Type", "value": "application/json" }
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 3,\n  \"method\": \"tools/call\",\n  \"params\": {\n    \"name\": \"get-b2b-partner-profiles\",\n    \"arguments\": {}\n  }\n}"
+				},
+				"url": {
+					"raw": "{{mcp_base}}{{mcp_path}}",
+					"host": ["{{mcp_base}}{{mcp_path}}"]
+				},
+				"description": "Get B2B partner profiles. No arguments."
+			}
+		},
+		{
+			"name": "Tool: create-b2b-partner-profile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{ "key": "Accept", "value": "application/json, text/event-stream" },
+					{ "key": "Content-Type", "value": "application/json" }
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 4,\n  \"method\": \"tools/call\",\n  \"params\": {\n    \"name\": \"create-b2b-partner-profile\",\n    \"arguments\": {\n      \"partnerType\": \"PARTNER\",\n      \"partnerName\": \"Postman Test Partner\",\n      \"identifiers\": [\n        { \"identifierCode\": \"AS2\", \"value\": \"postman-as2-id\" }\n      ],\n      \"contact\": {\n        \"name\": \"Contact Name\",\n        \"email\": \"contact@example.com\"\n      }\n    }\n  }\n}"
+				},
+				"url": {
+					"raw": "{{mcp_base}}{{mcp_path}}",
+					"host": ["{{mcp_base}}{{mcp_path}}"]
+				},
+				"description": "Create a B2B partner profile. Example arguments; adjust partnerType, partnerName, identifiers, contact as needed."
+			}
+		},
+		{
+			"name": "Tool: create-b2b-endpoints",
+			"request": {
+				"method": "POST",
+				"header": [
+					{ "key": "Accept", "value": "application/json, text/event-stream" },
+					{ "key": "Content-Type", "value": "application/json" }
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 5,\n  \"method\": \"tools/call\",\n  \"params\": {\n    \"name\": \"create-b2b-endpoints\",\n    \"arguments\": {\n      \"partnerName\": \"Postman Test Partner\",\n      \"endpoints\": [\n        {\n          \"endpointName\": \"SFTP-Receive\",\n          \"protocol\": \"sftp\",\n          \"direction\": \"RECEIVE\",\n          \"serverAddress\": \"sftp.example.com\",\n          \"port\": 22,\n          \"authType\": \"BASIC\",\n          \"username\": \"user\",\n          \"password\": \"pass\",\n          \"path\": \"/inbound\",\n          \"supportedFormats\": \"EDI\",\n          \"pollingFrequency\": 300000,\n          \"fileNamePattern\": \"*.edi\"\n        }\n      ]\n    }\n  }\n}"
+				},
+				"url": {
+					"raw": "{{mcp_base}}{{mcp_path}}",
+					"host": ["{{mcp_base}}{{mcp_path}}"]
+				},
+				"description": "Create B2B endpoints. Example with one SFTP RECEIVE endpoint; replace partnerName with an existing partner. For AS2 use protocol \"as2\" and AS2-specific fields (hostAs2Identifier, partnerAs2Identifier, partnerAs2Url, partnerCertificateId, etc.)."
+			}
+		},
+		{
+			"name": "Tool: search-b2b-transactions",
+			"request": {
+				"method": "POST",
+				"header": [
+					{ "key": "Accept", "value": "application/json, text/event-stream" },
+					{ "key": "Content-Type", "value": "application/json" }
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 6,\n  \"method\": \"tools/call\",\n  \"params\": {\n    \"name\": \"search-b2b-transactions\",\n    \"arguments\": {\n      \"attribute\": \"testLabel\",\n      \"value\": \"some-value\",\n      \"partnerName\": \"\"\n    }\n  }\n}"
+				},
+				"url": {
+					"raw": "{{mcp_base}}{{mcp_path}}",
+					"host": ["{{mcp_base}}{{mcp_path}}"]
+				},
+				"description": "Search B2B transactions. Required: attribute, value. Optional: partnerName. Use attribute values from GET Custom Attributes (e.g. testLabel, testLabel3)."
+			}
+		}
+	]
+}

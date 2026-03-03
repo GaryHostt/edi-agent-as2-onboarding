@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "mcp-mule-b2b-partners": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://localhost:8083/mcp"
+      ],
+      "env": {
+        "NODE_TLS_REJECT_UNAUTHORIZED": "0"
+      }
+    }
+  }
+}
