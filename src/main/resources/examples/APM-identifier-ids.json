@@ -1,0 +1,853 @@
+[
+  {
+    "id": "65715d63-b628-4eb0-913d-cfdb55057c15",
+    "name": "AS2",
+    "label": "AS2 Identity",
+    "description": "",
+    "readonly": true,
+    "environment_id": "00000000-0000-0000-0000-000000000000",
+    "qualifiers": [
+      {
+        "id": "25c1bc8a-801f-4947-a2a6-7721ef971460",
+        "identifierTypeId": "65715d63-b628-4eb0-913d-cfdb55057c15",
+        "code": "AS2",
+        "label": "AS2 Identity",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  },
+  {
+    "id": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+    "name": "X12-ISA",
+    "label": "X12 - ISA",
+    "description": "",
+    "readonly": true,
+    "environment_id": "00000000-0000-0000-0000-000000000000",
+    "qualifiers": [
+      {
+        "id": "dacbb21c-f452-434e-985f-c8c588ebf2f2",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "01",
+        "label": "01 (Duns Number)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "888bbdfc-4693-4267-a0d4-22a059fde2e4",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "02",
+        "label": "02 (SCAC - Standard Carrier Alpha Code)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "4f583fac-07f0-439a-9596-4459b9b07f99",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "03",
+        "label": "03 (FMC - Federal Maritime Commission)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "34ec0e15-b57f-4f57-b70e-3b25e55ee200",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "04",
+        "label": "04 (IATA - International Air Transport Association)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "95858b12-5475-4d05-8fcb-b3111213ead3",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "07",
+        "label": "07 (GLN - Global Location Number)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "789fb88c-c353-46f6-ba7e-2f9784e5e504",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "08",
+        "label": "08 (UCC EDI Communications ID)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "912a6767-ae6b-45b1-a552-689057d1ad29",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "09",
+        "label": "09 (X.121)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "05a7c47a-24f3-4f90-ac6e-7dde0e083690",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "10",
+        "label": "10 (DoD - Department of Defense Activity Address Code)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "2cab1b3a-3128-4e41-9e75-85d5bc9dd350",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "11",
+        "label": "11 (DEA - Drug Enforcement Administration)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "26432f80-b58b-4c96-aac6-58af5d5580fc",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "12",
+        "label": "12 (Phone Number)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "94cfbc8c-efbf-444a-a452-98fed4932dbd",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "13",
+        "label": "13 (UCS Code)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "2e92b8d1-0510-4d59-ac3b-953d08127f78",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "14",
+        "label": "14 (Duns Number and Suffix Number)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "2067c9c9-30d7-40f7-a902-a53094f46840",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "15",
+        "label": "15 (Petroleum Accountants Society of Canada Company Code)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "b606f1cc-c717-4389-9800-556993e3a943",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "16",
+        "label": "16 (Duns Number With 4-Character Suffix)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "53bce625-88fd-4cc8-b8b3-67bc2cdc041e",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "17",
+        "label": "17 (ABA - American Bankers Association - Transit Routing Number Including Check Digit, 9 Digit)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "3eb1ed80-b665-4bd4-af1a-104c731dcc61",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "18",
+        "label": "18 (AAR - Association of American Railroads - Standard Distribution Code)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "ba360720-ac58-4823-a324-649c78d15223",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "19",
+        "label": "19 (EDI Council of Australia Communications ID)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "2d3cd43f-e6f8-4967-9083-7b0b4f2122e4",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "20",
+        "label": "20 - (HIN - Health Industry Number)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "03e47906-ad60-4617-9354-5ad67bd67c8e",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "21",
+        "label": "21 (IPEDS - Integrated Postsecondary Education Data System)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "649f0257-e327-486e-bec5-52b7dc5cc3f8",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "22",
+        "label": "22 (FICE - Federal Interagency Commission on Education)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "5df29d63-8a31-44b2-8776-d48cc48c60b9",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "23",
+        "label": "23 (NCES - National Center for Education Statistics Common Core of Data 12-Digit Number for Pre-K-Grade 12 Institutes)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "9c7609f5-ca49-49e6-ae47-a36e4778a117",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "24",
+        "label": "24 (ATP - The College Board's Admission Testing Program 4-Digit Code of Postsecondary Institutes)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "6f8a3ea3-26fe-4c16-b29f-14558b28ec2b",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "25",
+        "label": "25 (ACT - Inc. 4-Digit Code of Postsecondary Institutions.)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "b0eb4238-51a4-491b-a754-9697747d18ab",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "26",
+        "label": "26 (Statistics of Canada List of Postsecondary Institutions)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "b241529a-0129-4efc-88ea-4561a17ff5fb",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "27",
+        "label": "27 (Carrier Identification Number)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "cc9c8949-a371-46d2-b397-c8582d47329b",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "28",
+        "label": "28 (Fiscal Intermediary Identification Number)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "743a7c05-7c15-41bb-9649-33ff4c066ee0",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "29",
+        "label": "29 (Medicare Provider and Supplier Identification Number)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "e6b315d7-6335-4e53-95de-996ddbfcc95c",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "30",
+        "label": "30 (U.S. Federal Tax Identification Number)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "26dee3cd-f0ce-46d5-b682-59794dd04093",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "31",
+        "label": "31 (Jurisdiction Identification Number Plus 4)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "4e591ed6-97bb-4486-ba98-5f92d3da1b34",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "32",
+        "label": "32 (FEIN - U.S. Federal Employer Identification Number)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "604c5087-cfdf-42e6-832f-48fd3b17ae66",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "33",
+        "label": "33 (NAIC - National Association of Insurance Commissioners Company Code)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "41efeeab-67a4-4405-9f32-7b35626aa472",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "34",
+        "label": "34 (Medicaid Provider and Supplier Identification Number)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "0c0f552f-ad85-468f-aeef-234116c82774",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "35",
+        "label": "35 (Statistics Canada Canadian College Student Information System Institution Codes)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "704193da-865e-47b0-93ea-71066dd39c2c",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "36",
+        "label": "36 (Statistics Canada University Student Information System Institution Codes)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "c632daef-3f72-41c0-a9ac-08c872609ed8",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "37",
+        "label": "37 (Society of Property Information Compilers and Analysts)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "c1576faa-89c1-4bc8-9fae-fc03f729501a",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "38",
+        "label": "38 (The College Board and ACT, Inc. 6-Digit Code List of Secondary Institutions)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "9eb7ea5a-ce91-4cc4-8f4f-e0c2d9efd5ce",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "AM",
+        "label": "AM (AMECOP - Association Mexicana del Codigo de Producto Communication ID)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "e5e79171-07cd-413b-a9db-37f276ab0dfa",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "NR",
+        "label": "NR (NRMA - National Retail Merchants Association)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "21fa4ff4-08d7-468d-a7e9-206cd721f5cb",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "SA",
+        "label": "SA (User Identification Number)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "447b44ac-977d-4dca-a49a-59bf56e65c8d",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "SN",
+        "label": "SN (Standard Address Number)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "fc397111-9590-4fea-a238-5853d575e04e",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f456f",
+        "code": "ZZ",
+        "label": "ZZ (Mutually Defined)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  },
+  {
+    "id": "ed100353-3187-4535-b400-f6a3fa0b56c3",
+    "name": "X12-GS",
+    "label": "X12 - GS",
+    "description": "",
+    "readonly": true,
+    "environment_id": "00000000-0000-0000-0000-000000000000",
+    "qualifiers": [
+      {
+        "id": "5982e3de-4878-44ec-b55d-a39d60064250",
+        "identifierTypeId": "ed100353-3187-4535-b400-f6a3fa0b56c3",
+        "code": "GS",
+        "label": "Group ID (GS)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  },
+  {
+    "id": "a48a2a06-33be-4399-be1d-1ddb90d0c3fb",
+    "name": "Reference-ID",
+    "label": "Reference ID",
+    "description": "",
+    "readonly": true,
+    "environment_id": "00000000-0000-0000-0000-000000000000",
+    "qualifiers": [
+      {
+        "id": "5217a9a0-9bc2-47cc-8803-a9c51713e9a3",
+        "identifierTypeId": "a48a2a06-33be-4399-be1d-1ddb90d0c3fb",
+        "code": "REF_ID",
+        "label": "Reference Value",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  },
+  {
+    "id": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+    "name": "EDIFACT-UNB",
+    "label": "EDIFACT - UNB",
+    "description": "",
+    "readonly": true,
+    "environment_id": "00000000-0000-0000-0000-000000000000",
+    "qualifiers": [
+      {
+        "id": "70a3217e-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "1",
+        "label": "1 - DUNS (Data Universal Numbering System)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a23a16-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "103",
+        "label": "103 - TW, Trade-van",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2e006-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "12",
+        "label": "12 - Telephone number",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2394e-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "128",
+        "label": "128 - CH, BCNR (Swiss Clearing Bank Number)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a23886-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "129",
+        "label": "129 - CH, BPI (Swiss Business Partner Identification)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2df2a-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "14",
+        "label": "14 - EAN International",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a23610-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "144",
+        "label": "144 - US, DoDAAC (Department of Defense Activity Address Code)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a23548-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "145",
+        "label": "145 - FR, DGCP (Direction Generale de la Comptabilite Publique)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a23476-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "146",
+        "label": "146 - FR, DGI (Direction Generale des Impots)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2337c-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "147",
+        "label": "147 - JP, JIPDEC/ECPC (Japan Information Processing Development Corporation / Electronic Commerce Promotion Center)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a23200-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "148",
+        "label": "148 - ITU (International Telecommunications Union) Data Network Identification Code (DNIC)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2de3a-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "18",
+        "label": "18 - AIAG (Automotive Industry Action Group)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2dcc8-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "22",
+        "label": "22 - INSEE (Institut National de la Statistique et des Etudes Economiques - SIREN)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2d3c2-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "30",
+        "label": "30 - ISO 6523: Organization identification",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2d250-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "31",
+        "label": "31 - DIN (Deutsches Institut fuer Normung)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2b982-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "33",
+        "label": "33 - BfA (Bundesversicherungsanstalt fuer Angestellte)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2b8c4-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "34",
+        "label": "34 - National Statistical Agency",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a32066-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "4",
+        "label": "4 - IATA (International Air Transport Association)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2e97a-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "5",
+        "label": "5 - INSEE (Institut National de la Statistique et des Etudes Economiques - SIRET)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2b7f2-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "51",
+        "label": "51 - GEIS (General Electric Information Services)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2b734-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "52",
+        "label": "52 - INS (IBM Network Services)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2b66c-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "53",
+        "label": "53 - Datenzentrale des Einzelhandels",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2b5ae-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "54",
+        "label": "54 - Bundesverband der Deutschen Baustoffhaendler",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2b4e6-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "55",
+        "label": "55 - Bank identifier code",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2b1f8-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "57",
+        "label": "57 - KTNet (Korea Trade Network Services)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2b11c-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "58",
+        "label": "58 - UPU (Universal Postal Union)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2b054-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "59",
+        "label": "59 - ODETTE (Organization for Data Exchange through Tele-Transmission in Europe)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2af78-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "61",
+        "label": "61 - SCAC (Standard Carrier Alpha Code)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2aeb0-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "63",
+        "label": "63 - ECA (Electronic Commerce Australia)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2add4-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "65",
+        "label": "65 - TELEBOX 400 (Deutsche Telekom)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2e66e-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "8",
+        "label": "8 - UCC Communications ID (Uniform Code Council Communications Identifier)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2ad02-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "80",
+        "label": "80 - NHS (National Health Service)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2a99c-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "81",
+        "label": "81 - Statens Teleforvaltning",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2a8b6-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "84",
+        "label": "84 - Athens Chamber of Commerce",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2a7e4-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "85",
+        "label": "85 - Swiss Chamber of Commerce",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2a71c-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "86",
+        "label": "86 - US Council for International Business",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2a636-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "87",
+        "label": "87 - National Federation of Chambers of Commerce and Industry",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2a53c-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "89",
+        "label": "89 - Association of British Chambers of Commerce",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2e2a4-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "9",
+        "label": "9 - DUNS (Data Universal Numbering System) with 4 digit suffix",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a2a30c-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "90",
+        "label": "90 - SITA (Societe Internationale de Telecommunications Aeronautiques)",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a23b9c-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "91",
+        "label": "91 - Assigned by seller or seller's agent",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a23ade-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "92",
+        "label": "92 - Assigned by buyer or buyer's agent",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "5e8e05f5-0bab-422d-afff-7a8a03982461",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "EDIFACT-UNB",
+        "label": "NONE - Not Used",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a22864-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "Z01",
+        "label": "Z01 - Vehicle registration number",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      },
+      {
+        "id": "70a225b2-9240-11eb-a8b3-0242ac130003",
+        "identifierTypeId": "ce7e0612-8913-4bac-a99b-7f7c6c8f45c3",
+        "code": "ZZZ",
+        "label": "ZZZ - Mutually defined",
+        "segmentIdentifier": null,
+        "descritpion": null,
+        "environmentId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  }
+]

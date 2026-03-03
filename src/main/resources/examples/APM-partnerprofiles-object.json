@@ -1,0 +1,96 @@
+{
+  "partners": [
+    {
+      "id": "7ebd28ec-0fb6-400f-8851-d4f581b2e133",
+      "name": "Alps Inc.",
+      "description": null,
+      "websiteUrl": null,
+      "partnerType": "PARTNER",
+      "contacts": [
+        {
+          "id": "b8cb6a4a-dd72-4c6a-9602-564acfc57cf2",
+          "name": "Alps B2B Help Desk",
+          "email": "b2b-support@alpsinc.com",
+          "phoneNumber": "878-987-7900",
+          "status": "ACTIVE",
+          "contactType": {
+            "id": "020f4c28-a0c2-4e70-b25d-8ab68f1a2020",
+            "name": "Technical",
+            "label": "Technical Contact",
+            "description": "Technical Contact"
+          }
+        }
+      ],
+      "identifiers": [
+        {
+          "id": "c4e807a0-fa21-4f21-b60c-c421c07c8723",
+          "qualifierLabel": "AS2 Identity",
+          "typeLabel": "AS2 Identity",
+          "typeName": null,
+          "code": "AS2",
+          "value": "partnera"
+        },
+        {
+          "id": "69d58b1e-f6e3-410c-9930-a91c2babf1db",
+          "identifierTypeQualifierId": "fc397111-9590-4fea-a238-5853d575e04e",
+          "qualifierLabel": "ZZ (Mutually Defined)",
+          "typeLabel": "X12 - ISA",
+          "typeName": null,
+          "code": "ZZ",
+          "value": "ALPSINC"
+        },
+        {
+          "id": "e6701b35-032d-4b9b-ad15-b2515eb00c3f",
+          "identifierTypeQualifierId": "5982e3de-4878-44ec-b55d-a39d60064250",
+          "qualifierLabel": "Group ID (GS)",
+          "typeLabel": "X12 - GS",
+          "typeName": null,
+          "code": "GS",
+          "value": "ALPSINC"
+        },
+        {
+          "id": "6d62432e-6328-439f-b0c7-7dd674a47a58",
+          "identifierTypeQualifierId": "888bbdfc-4693-4267-a0d4-22a059fde2e4",
+          "qualifierLabel": "02 (SCAC - Standard Carrier Alpha Code)",
+          "typeLabel": "X12 - ISA",
+          "typeName": null,
+          "code": "02",
+          "value": "ZYXW"
+        },
+        {
+          "id": "08e8eba3-a7ab-4953-a2b8-0a63a1163868",
+          "identifierTypeQualifierId": "5217a9a0-9bc2-47cc-8803-a9c51713e9a3",
+          "qualifierLabel": "Reference Value",
+          "typeLabel": "Reference ID",
+          "typeName": null,
+          "code": "REF_ID",
+          "value": "Alps Inc"
+        },
+        {
+          "id": "c983d11d-fac5-4bcc-918f-3180867829a7",
+          "identifierTypeQualifierId": "5217a9a0-9bc2-47cc-8803-a9c51713e9a3",
+          "qualifierLabel": "Reference Value",
+          "typeLabel": "Reference ID",
+          "typeName": null,
+          "code": "REF_ID",
+          "value": "ALPS-BU-12345"
+        }
+      ],
+      "addresses": [],
+      "createdAt": "2021-09-03T05:03:56Z",
+      "createdBy": {
+        "userId": "1b499118-a9df-4f0e-8b95-051a9b10c0fb",
+        "firstName": "Vijayan",
+        "lastName": "Ganapathy",
+        "userName": "vganapathy"
+      },
+      "updatedAt": "2024-05-18T16:38:26Z",
+      "updatedBy": {
+        "userId": "1b499118-a9df-4f0e-8b95-051a9b10c0fb",
+        "firstName": "Vijayan",
+        "lastName": "Ganapathy",
+        "userName": "vganapathy"
+      }
+    }
+  ]
+}

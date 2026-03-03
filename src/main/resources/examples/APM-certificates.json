@@ -1,0 +1,502 @@
+[
+    {
+        "id": "8a8af103-9a64-40bc-b3eb-856a49079b12",
+        "certificateType": "PEM",
+        "name": "ABC-SSH-Key",
+        "csmSecret": {
+            "secretType": "IdentityKeyPEM",
+            "secretId": "64a54909-37c6-4e2a-ad1b-367192154efc",
+            "secretGroupId": "39e686cb-0d07-45aa-bd95-0505015a8182",
+            "grantResponse": {
+                "path": "sharedSecrets/64a54909-37c6-4e2a-ad1b-367192154efc",
+                "accessGrant": ""
+            }
+        },
+        "authority": "N/A",
+        "serialNumber": "N/A",
+        "startDate": "2024-03-14T17:06:17Z",
+        "expires": "2123-03-14T00:00:00Z",
+        "partnerId": "775abf1f-9438-4168-a68a-e27e58d19225",
+        "usedInEndpoints": 0,
+        "flowDependencyCount": 0,
+        "usedInAs2": false,
+        "runtimeStatus": null,
+        "endpointDependenciesInfo": null,
+        "messageFlowDependenciesInfo": null
+    },
+    {
+        "id": "8979be6b-e75c-45d8-b9a9-3ace1d5742cb",
+        "certificateType": "PEM",
+        "name": "Certificate-1",
+        "csmSecret": {
+            "secretType": "Certificate",
+            "secretId": "5083a164-c119-4d62-a4ae-0568e41b284e",
+            "secretGroupId": "39e686cb-0d07-45aa-bd95-0505015a8182",
+            "grantResponse": {
+                "path": "certificates/5083a164-c119-4d62-a4ae-0568e41b284e",
+                "accessGrant": ""
+            }
+        },
+        "authority": "partnera",
+        "serialNumber": "6035A6C7",
+        "startDate": "2021-02-24T01:07:19Z",
+        "expires": "2026-02-24T01:07:19Z",
+        "partnerId": "7ebd28ec-0fb6-400f-8851-d4f581b2e133",
+        "usedInEndpoints": 0,
+        "flowDependencyCount": 0,
+        "usedInAs2": true,
+        "runtimeStatus": "ACTIVE",
+        "endpointDependenciesInfo": null,
+        "messageFlowDependenciesInfo": null
+    },
+    {
+        "id": "a63dda28-e647-4728-8e9a-1efacc830f47",
+        "certificateType": "PEM",
+        "name": "Certificate-1",
+        "csmSecret": {
+            "secretType": "Certificate",
+            "secretId": "63735165-d6cc-46da-9828-6a6c42e9c304",
+            "secretGroupId": "39e686cb-0d07-45aa-bd95-0505015a8182",
+            "grantResponse": {
+                "path": "certificates/63735165-d6cc-46da-9828-6a6c42e9c304",
+                "accessGrant": ""
+            }
+        },
+        "authority": "partnerc",
+        "serialNumber": "6035A71F",
+        "startDate": "2021-02-24T01:08:47Z",
+        "expires": "2026-02-24T01:08:47Z",
+        "partnerId": "c410d383-650f-432d-bbf3-28ab0c972983",
+        "usedInEndpoints": 0,
+        "flowDependencyCount": 0,
+        "usedInAs2": true,
+        "runtimeStatus": "ACTIVE",
+        "endpointDependenciesInfo": null,
+        "messageFlowDependenciesInfo": null
+    },
+    {
+        "id": "8a5cdeb3-d784-4791-97c2-b953d08a632c",
+        "certificateType": "PEM",
+        "name": "Certificate-1",
+        "csmSecret": {
+            "secretType": "Certificate",
+            "secretId": "eaf1c3b5-0287-4c1f-949d-a0582088982a",
+            "secretGroupId": "39e686cb-0d07-45aa-bd95-0505015a8182",
+            "grantResponse": {
+                "path": "certificates/eaf1c3b5-0287-4c1f-949d-a0582088982a",
+                "accessGrant": ""
+            }
+        },
+        "authority": "mendelson test key 3",
+        "serialNumber": "5A2A5B1C",
+        "startDate": "2017-12-08T09:27:56Z",
+        "expires": "2027-12-06T09:27:56Z",
+        "partnerId": "e0172755-2ba9-4d75-93b7-bb0dbdb5df65",
+        "usedInEndpoints": 0,
+        "flowDependencyCount": 0,
+        "usedInAs2": true,
+        "runtimeStatus": "ACTIVE",
+        "endpointDependenciesInfo": null,
+        "messageFlowDependenciesInfo": null
+    },
+    {
+        "id": "8209e6e6-6a22-4222-955d-83fb84277eaa",
+        "certificateType": "PEM",
+        "name": "Certificate-1",
+        "csmSecret": {
+            "secretType": "Certificate",
+            "secretId": "53ac680f-55b9-4296-92a1-891c78eba99b",
+            "secretGroupId": "39e686cb-0d07-45aa-bd95-0505015a8182",
+            "grantResponse": {
+                "path": "certificates/53ac680f-55b9-4296-92a1-891c78eba99b",
+                "accessGrant": ""
+            }
+        },
+        "authority": "b2b-van-1",
+        "serialNumber": "60FEF894",
+        "startDate": "2021-07-26T18:01:56Z",
+        "expires": "2031-07-26T18:01:56Z",
+        "partnerId": "bf7b31a3-bd15-4c85-a642-ac23e48eaf0f",
+        "usedInEndpoints": 0,
+        "flowDependencyCount": 0,
+        "usedInAs2": true,
+        "runtimeStatus": "ACTIVE",
+        "endpointDependenciesInfo": null,
+        "messageFlowDependenciesInfo": null
+    },
+    {
+        "id": "af9ebc97-dd9a-4863-a7d0-fed53eeb0a5f",
+        "certificateType": "PEM",
+        "name": "Certificate-1",
+        "csmSecret": {
+            "secretType": "Certificate",
+            "secretId": "4ed23b30-93aa-4bd3-a402-379829fd4ee7",
+            "secretGroupId": "39e686cb-0d07-45aa-bd95-0505015a8182",
+            "grantResponse": {
+                "path": "certificates/4ed23b30-93aa-4bd3-a402-379829fd4ee7",
+                "accessGrant": ""
+            }
+        },
+        "authority": "amazing-as2",
+        "serialNumber": "57A1651767241",
+        "startDate": "2022-05-05T16:14:01Z",
+        "expires": "2032-05-05T16:14:01Z",
+        "partnerId": "90ae71bc-f946-46a1-887c-dbe76a55b166",
+        "usedInEndpoints": 0,
+        "flowDependencyCount": 0,
+        "usedInAs2": true,
+        "runtimeStatus": "ACTIVE",
+        "endpointDependenciesInfo": null,
+        "messageFlowDependenciesInfo": null
+    },
+    {
+        "id": "1d8fc6a3-63ae-4a1e-a651-90b4197e82d9",
+        "certificateType": "PEM",
+        "name": "Certificate-1",
+        "csmSecret": {
+            "secretType": "Certificate",
+            "secretId": "3ffd3c25-d6d2-483b-8280-e7411117ba84",
+            "secretGroupId": "39e686cb-0d07-45aa-bd95-0505015a8182",
+            "grantResponse": {
+                "path": "certificates/3ffd3c25-d6d2-483b-8280-e7411117ba84",
+                "accessGrant": ""
+            }
+        },
+        "authority": "forward-van",
+        "serialNumber": "62570B56",
+        "startDate": "2022-04-13T17:41:42Z",
+        "expires": "2032-04-13T17:41:42Z",
+        "partnerId": "3d2ccce9-4c3f-42be-a39a-8cdc103ba126",
+        "usedInEndpoints": 0,
+        "flowDependencyCount": 0,
+        "usedInAs2": true,
+        "runtimeStatus": "ACTIVE",
+        "endpointDependenciesInfo": null,
+        "messageFlowDependenciesInfo": null
+    },
+    {
+        "id": "650a7ae3-7d7f-4fb7-ae04-205d3740afda",
+        "certificateType": "PEM",
+        "name": "AS2-Keystore-Mythical",
+        "csmSecret": {
+            "secretType": "KeystorePEM",
+            "secretId": "1c93ba6c-5208-49e0-8d22-14b532ceb5d4",
+            "secretGroupId": "39e686cb-0d07-45aa-bd95-0505015a8182",
+            "grantResponse": {
+                "path": "keystores/1c93ba6c-5208-49e0-8d22-14b532ceb5d4",
+                "accessGrant": ""
+            }
+        },
+        "authority": "mythical-as2",
+        "serialNumber": "65052C2D",
+        "startDate": "2023-09-16T04:16:45Z",
+        "expires": "2033-09-16T04:16:45Z",
+        "partnerId": "786b2d52-466e-45d4-a0c5-bd501ffac674",
+        "usedInEndpoints": 0,
+        "flowDependencyCount": 0,
+        "usedInAs2": false,
+        "runtimeStatus": null,
+        "endpointDependenciesInfo": null,
+        "messageFlowDependenciesInfo": null
+    },
+    {
+        "id": "3d04a91b-58a1-4554-b5f5-efec662ed543",
+        "certificateType": "PEM",
+        "name": "Certificate-1",
+        "csmSecret": {
+            "secretType": "Certificate",
+            "secretId": "61ad9b97-70ba-4084-af5e-aa430a5deb9e",
+            "secretGroupId": "39e686cb-0d07-45aa-bd95-0505015a8182",
+            "grantResponse": {
+                "path": "certificates/61ad9b97-70ba-4084-af5e-aa430a5deb9e",
+                "accessGrant": ""
+            }
+        },
+        "authority": "partner-z",
+        "serialNumber": "6445CD5C",
+        "startDate": "2023-04-24T00:29:16Z",
+        "expires": "2023-04-25T06:59:59Z",
+        "partnerId": "1c2be5ae-1d2d-4baa-b8e3-1d8d2e6e7ea4",
+        "usedInEndpoints": 0,
+        "flowDependencyCount": 0,
+        "usedInAs2": true,
+        "runtimeStatus": "ACTIVE",
+        "endpointDependenciesInfo": null,
+        "messageFlowDependenciesInfo": null
+    },
+    {
+        "id": "2c644560-55b2-4734-a686-dfbcfec1cf4c",
+        "certificateType": "PEM",
+        "name": "Certificate-2",
+        "csmSecret": {
+            "secretType": "Certificate",
+            "secretId": "66092fc4-ec0f-41bc-be48-dfb0261e0af3",
+            "secretGroupId": "39e686cb-0d07-45aa-bd95-0505015a8182",
+            "grantResponse": {
+                "path": "certificates/66092fc4-ec0f-41bc-be48-dfb0261e0af3",
+                "accessGrant": ""
+            }
+        },
+        "authority": "partner-z",
+        "serialNumber": "6445CD5C",
+        "startDate": "2023-04-24T00:29:16Z",
+        "expires": "2023-04-25T06:59:59Z",
+        "partnerId": "1c2be5ae-1d2d-4baa-b8e3-1d8d2e6e7ea4",
+        "usedInEndpoints": 0,
+        "flowDependencyCount": 0,
+        "usedInAs2": false,
+        "runtimeStatus": null,
+        "endpointDependenciesInfo": null,
+        "messageFlowDependenciesInfo": null
+    },
+    {
+        "id": "7c293e23-4360-493c-baec-4c6e91b32263",
+        "certificateType": "PEM",
+        "name": "Mulesoft-Demo-Certificate",
+        "csmSecret": {
+            "secretType": "Certificate",
+            "secretId": "03184293-6242-4e64-86df-2f908c5f3517",
+            "secretGroupId": "39e686cb-0d07-45aa-bd95-0505015a8182",
+            "grantResponse": {
+                "path": "certificates/03184293-6242-4e64-86df-2f908c5f3517",
+                "accessGrant": ""
+            }
+        },
+        "authority": "Mulesoft-Demo",
+        "serialNumber": "65D96CE1",
+        "startDate": "2024-02-24T04:13:21Z",
+        "expires": "2034-02-24T04:13:21Z",
+        "partnerId": "d330b637-fe33-414f-ab79-5fe0991e17e9",
+        "usedInEndpoints": 0,
+        "flowDependencyCount": 0,
+        "usedInAs2": true,
+        "runtimeStatus": "ACTIVE",
+        "endpointDependenciesInfo": null,
+        "messageFlowDependenciesInfo": null
+    },
+    {
+        "id": "6daf54b9-f6ea-4208-bbd8-c35a8865c860",
+        "certificateType": "PEM",
+        "name": "NexGen-SSH-Key-2024-02",
+        "csmSecret": {
+            "secretType": "IdentityKeyPEM",
+            "secretId": "69086bbf-ad46-4978-8040-b6189523c528",
+            "secretGroupId": "39e686cb-0d07-45aa-bd95-0505015a8182",
+            "grantResponse": {
+                "path": "sharedSecrets/69086bbf-ad46-4978-8040-b6189523c528",
+                "accessGrant": ""
+            }
+        },
+        "authority": "N/A",
+        "serialNumber": "N/A",
+        "startDate": "2024-02-29T17:29:20Z",
+        "expires": "2123-02-28T00:00:00Z",
+        "partnerId": "5536f96e-7fbe-4338-92be-d4b1b9e73115",
+        "usedInEndpoints": 0,
+        "flowDependencyCount": 0,
+        "usedInAs2": false,
+        "runtimeStatus": null,
+        "endpointDependenciesInfo": null,
+        "messageFlowDependenciesInfo": null
+    },
+    {
+        "id": "f6511267-eb92-4456-86a1-648186461702",
+        "certificateType": "PEM",
+        "name": "mulesoft-demo-cert",
+        "csmSecret": {
+            "secretType": "Certificate",
+            "secretId": "ba6fdfd5-1e6b-4752-bd08-8c9562733b33",
+            "secretGroupId": "39e686cb-0d07-45aa-bd95-0505015a8182",
+            "grantResponse": {
+                "path": "certificates/ba6fdfd5-1e6b-4752-bd08-8c9562733b33",
+                "accessGrant": ""
+            }
+        },
+        "authority": "Mulesoft-Demo",
+        "serialNumber": "65D96CE1",
+        "startDate": "2024-02-24T04:13:21Z",
+        "expires": "2034-02-24T04:13:21Z",
+        "partnerId": "d330b637-fe33-414f-ab79-5fe0991e17e9",
+        "usedInEndpoints": 0,
+        "flowDependencyCount": 0,
+        "usedInAs2": false,
+        "runtimeStatus": null,
+        "endpointDependenciesInfo": null,
+        "messageFlowDependenciesInfo": null
+    },
+    {
+        "id": "c26e627a-bb66-4f13-841e-ce7aa8d4e55d",
+        "certificateType": "PEM",
+        "name": "WestRock-AS2",
+        "csmSecret": {
+            "secretType": "Certificate",
+            "secretId": "ba33eb6a-90f2-44b2-af40-4a6a7d9fbaec",
+            "secretGroupId": "39e686cb-0d07-45aa-bd95-0505015a8182",
+            "grantResponse": {
+                "path": "certificates/ba33eb6a-90f2-44b2-af40-4a6a7d9fbaec",
+                "accessGrant": ""
+            }
+        },
+        "authority": "DigiCert Global G2 TLS RSA SHA256 2020 CA1",
+        "serialNumber": "FC09B7BA65E523788BE983E809D8A6E",
+        "startDate": "2024-01-11T00:00:00Z",
+        "expires": "2025-01-29T23:59:59Z",
+        "partnerId": "f33b9f5c-a174-4a0c-b82a-eb9502f9c94b",
+        "usedInEndpoints": 0,
+        "flowDependencyCount": 0,
+        "usedInAs2": true,
+        "runtimeStatus": "ACTIVE",
+        "endpointDependenciesInfo": null,
+        "messageFlowDependenciesInfo": null
+    },
+    {
+        "id": "76914a66-9c0d-461a-aa80-c691a82850d6",
+        "certificateType": "PEM",
+        "name": "Beds-Plus-AS2-2024",
+        "csmSecret": {
+            "secretType": "Certificate",
+            "secretId": "56cb7b39-30c5-4e0c-bcac-5d491171461e",
+            "secretGroupId": "39e686cb-0d07-45aa-bd95-0505015a8182",
+            "grantResponse": {
+                "path": "certificates/56cb7b39-30c5-4e0c-bcac-5d491171461e",
+                "accessGrant": ""
+            }
+        },
+        "authority": "beds-plus-as2",
+        "serialNumber": "660C6397",
+        "startDate": "2024-04-02T19:59:40Z",
+        "expires": "2024-04-14T19:59:19Z",
+        "partnerId": "c7358c6d-ea1f-44c3-8858-9f3b6df579e4",
+        "usedInEndpoints": 0,
+        "flowDependencyCount": 0,
+        "usedInAs2": true,
+        "runtimeStatus": "ACTIVE",
+        "endpointDependenciesInfo": null,
+        "messageFlowDependenciesInfo": null
+    },
+    {
+        "id": "e4101b9a-e0a8-4f38-84aa-3276ff752053",
+        "certificateType": "PEM",
+        "name": "NTO-AS2-Cert-2024",
+        "csmSecret": {
+            "secretType": "Certificate",
+            "secretId": "4db3de10-5bfa-4b75-882a-46eaa3fe6e25",
+            "secretGroupId": "39e686cb-0d07-45aa-bd95-0505015a8182",
+            "grantResponse": {
+                "path": "certificates/4db3de10-5bfa-4b75-882a-46eaa3fe6e25",
+                "accessGrant": ""
+            }
+        },
+        "authority": "nto-as2",
+        "serialNumber": "66912D7A",
+        "startDate": "2024-07-12T13:19:53Z",
+        "expires": "2034-07-12T13:19:53Z",
+        "partnerId": "9e4a9e9c-2bdf-4a24-897a-c8116b8e500d",
+        "usedInEndpoints": 0,
+        "flowDependencyCount": 0,
+        "usedInAs2": true,
+        "runtimeStatus": "ACTIVE",
+        "endpointDependenciesInfo": null,
+        "messageFlowDependenciesInfo": null
+    },
+    {
+        "id": "72ba96a3-766c-4ca1-a541-339e3a10a8b9",
+        "certificateType": "PEM",
+        "name": "arctic-as2-public",
+        "csmSecret": {
+            "secretType": "Certificate",
+            "secretId": "d4dac6da-ce1a-48fd-b77f-b3de13bf561f",
+            "secretGroupId": "39e686cb-0d07-45aa-bd95-0505015a8182",
+            "grantResponse": {
+                "path": "certificates/d4dac6da-ce1a-48fd-b77f-b3de13bf561f",
+                "accessGrant": ""
+            }
+        },
+        "authority": "arctic-as2",
+        "serialNumber": "5CC9AB8345BF8033920E451B73B50192BEC25241",
+        "startDate": "2024-10-24T13:40:59Z",
+        "expires": "2034-10-24T13:40:59Z",
+        "partnerId": "462ceaba-276a-47e0-a31f-533f082e2cb2",
+        "usedInEndpoints": 0,
+        "flowDependencyCount": 0,
+        "usedInAs2": true,
+        "runtimeStatus": "ACTIVE",
+        "endpointDependenciesInfo": null,
+        "messageFlowDependenciesInfo": null
+    },
+    {
+        "id": "85b3338f-445f-4a67-b399-1988b087f9a3",
+        "certificateType": "PEM",
+        "name": "baypoint-as2-public",
+        "csmSecret": {
+            "secretType": "Certificate",
+            "secretId": "ecbf3ab6-04b1-48c1-ae41-ffb344b63a40",
+            "secretGroupId": "39e686cb-0d07-45aa-bd95-0505015a8182",
+            "grantResponse": {
+                "path": "certificates/ecbf3ab6-04b1-48c1-ae41-ffb344b63a40",
+                "accessGrant": ""
+            }
+        },
+        "authority": "baypoint-as2",
+        "serialNumber": "63D09220C043D7F023181D18407A0192C0BC7717",
+        "startDate": "2024-10-24T22:53:49Z",
+        "expires": "2034-10-24T22:53:49Z",
+        "partnerId": "28cfb428-53ff-4d36-9b92-d7cfdd681732",
+        "usedInEndpoints": 0,
+        "flowDependencyCount": 0,
+        "usedInAs2": true,
+        "runtimeStatus": "ACTIVE",
+        "endpointDependenciesInfo": null,
+        "messageFlowDependenciesInfo": null
+    },
+    {
+        "id": "74be1690-79e0-4117-a21c-b35604e8009d",
+        "certificateType": "PEM",
+        "name": "Citrus-AS2-Public",
+        "csmSecret": {
+            "secretType": "Certificate",
+            "secretId": "15bc7a3a-02b5-40e7-bb58-01a75b2f358d",
+            "secretGroupId": "39e686cb-0d07-45aa-bd95-0505015a8182",
+            "grantResponse": {
+                "path": "certificates/15bc7a3a-02b5-40e7-bb58-01a75b2f358d",
+                "accessGrant": ""
+            }
+        },
+        "authority": "citrus-as2",
+        "serialNumber": "431DC7738FC43CF5A183463CF4300192C0BDA028",
+        "startDate": "2024-10-24T22:55:05Z",
+        "expires": "2034-10-24T22:55:05Z",
+        "partnerId": "a00f1166-1cd8-463d-92d3-ff823cfac33c",
+        "usedInEndpoints": 0,
+        "flowDependencyCount": 0,
+        "usedInAs2": true,
+        "runtimeStatus": "ACTIVE",
+        "endpointDependenciesInfo": null,
+        "messageFlowDependenciesInfo": null
+    },
+    {
+        "id": "babd2ca2-e262-4cd3-a345-0881cfdc18a4",
+        "certificateType": "PEM",
+        "name": "Certificate-2",
+        "csmSecret": {
+            "secretType": "Certificate",
+            "secretId": "843a26cb-36da-4fe6-b6ea-a8649a3171e1",
+            "secretGroupId": "39e686cb-0d07-45aa-bd95-0505015a8182",
+            "grantResponse": {
+                "path": "certificates/843a26cb-36da-4fe6-b6ea-a8649a3171e1",
+                "accessGrant": ""
+            }
+        },
+        "authority": "nto-as2",
+        "serialNumber": "62BD2F5F",
+        "startDate": "2022-06-30T05:06:39Z",
+        "expires": "2032-06-30T05:06:39Z",
+        "partnerId": "9e4a9e9c-2bdf-4a24-897a-c8116b8e500d",
+        "usedInEndpoints": 0,
+        "flowDependencyCount": 0,
+        "usedInAs2": false,
+        "runtimeStatus": null,
+        "endpointDependenciesInfo": null,
+        "messageFlowDependenciesInfo": null
+    }
+]

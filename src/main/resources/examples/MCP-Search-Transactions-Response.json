@@ -1,0 +1,142 @@
+[
+  {
+    "timestamp": "2025/05/05 15:45:11",
+    "direction": "OUTBOUND",
+    "from": "Mythical",
+    "to": "Electron Motors",
+    "messageType": "810",
+    "flowName": "X12-4010-810",
+    "businessKey": "DOC-000000568",
+    "ackStatus": "ACCEPTED",
+    "messageId": "8e75521e-8593-4574-b293-cf29ede72c88",
+    "messageDetailURL": "https://anypoint.mulesoft.com/partnermanager/#/organizations/43b555db-2264-4ed5-9c81-d456ba81aaa7/environments/e8c50b0b-cfb9-4635-972e-018b67ea5ea1/activity/message/8e75521e-8593-4574-b293-cf29ede72c88",
+    "attributes": [
+      {
+        "attribute": "Purchase Order Number",
+        "values": [
+          "PO-0000000192"
+        ]
+      },
+      {
+        "attribute": "Order Summary Number",
+        "values": [
+          "1Osak0000017mybCAA"
+        ]
+      },
+      {
+        "attribute": "Buyer's Email",
+        "values": [
+          "procurement@electron.com"
+        ]
+      },
+      {
+        "attribute": "Invoice Number",
+        "values": [
+          "DOC-000000568"
+        ]
+      },
+      {
+        "attribute": "Invoice Amount",
+        "values": [
+          "$ 5486.9"
+        ]
+      }
+    ]
+  },
+  {
+    "timestamp": "2025/05/05 15:45:10",
+    "direction": "OUTBOUND",
+    "from": "Mythical",
+    "to": "Electron Motors",
+    "messageType": "856",
+    "flowName": "X12-4010-856",
+    "businessKey": "SP-6846217",
+    "ackStatus": "ACCEPTED",
+    "attributes": [
+      {
+        "attribute": "Purchase Order Number",
+        "values": [
+          "PO-0000000192"
+        ]
+      },
+      {
+        "attribute": "Order Summary Number",
+        "values": [
+          "9a893ea6-e4a1-4860-ac4f-d53abc4ada87"
+        ]
+      },
+      {
+        "attribute": "Shipment ID",
+        "values": [
+          "SP-6846217"
+        ]
+      },
+      {
+        "attribute": "Carrier Tracking Number",
+        "values": [
+          "579c5b8a2d82449288e2263c6cbc30bc"
+        ]
+      }
+    ]
+  },
+  {
+    "timestamp": "2025/05/05 15:45:10",
+    "direction": "OUTBOUND",
+    "from": "Mythical",
+    "to": "Electron Motors",
+    "messageType": "855",
+    "flowName": "X12-4010-855",
+    "businessKey": "PO-0000000192",
+    "ackStatus": "ACCEPTED",
+    "attributes": [
+      {
+        "attribute": "Purchase Order Number",
+        "values": [
+          "PO-0000000192"
+        ]
+      },
+      {
+        "attribute": "Order Summary Number",
+        "values": [
+          "1Osak0000017mybCAA"
+        ]
+      },
+      {
+        "attribute": "Buyer's Email",
+        "values": [
+          "procurement@electron.com"
+        ]
+      }
+    ]
+  },
+  {
+    "timestamp": "2025/05/05 15:44:58",
+    "direction": "INBOUND",
+    "from": "Electron Motors",
+    "to": "Mythical",
+    "messageType": "850",
+    "flowName": "X12-4010-850",
+    "businessKey": "PO-0000000192",
+    "ackStatus": null,
+    "attributes": [
+      {
+        "attribute": "Purchase Order Number",
+        "values": [
+          "PO-0000000192"
+        ]
+      },
+      {
+        "attribute": "Buyer's Email",
+        "values": [
+          "procurement@electron.com"
+        ]
+      },
+      {
+        "attribute": "Buyer's Name",
+        "values": [
+          "Procurement Agent"
+        ]
+      }
+    ]
+  }
+]

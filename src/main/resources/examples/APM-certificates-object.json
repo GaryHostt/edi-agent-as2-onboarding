@@ -1,0 +1,36 @@
+{
+  "certificates": [
+    {
+      "id": "a8000e40-4058-4cd0-9517-0d15869d3241",
+      "certificateType": "PEM",
+      "name": "idkey124",
+      "csmSecretType": "IdentityKeyPEM",
+      "authority": "N/A",
+      "serialNumber": "N/A",
+      "startDate": "2024-11-21T20:42:08Z",
+      "expires": "2123-11-22T00:00:00Z",
+      "partnerId": "5368b020-6cb6-496b-b3e5-f2ac77dc8996",
+      "partnerPageUrl": "https://anypoint.mulesoft.com/partnermanager/#/organizations/43b555db-2264-4ed5-9c81-d456ba81aaa7/environments/e8c50b0b-cfb9-4635-972e-018b67ea5ea1/partners/f33b9f5c-a174-4a0c-b82a-eb9502f9c94b",
+      "partnerName": "Alps Inc",
+      "partnerEmail": "support@alpsinc.com",
+      "partnerPhone": "897-098-2345",
+      "usedInAs2": false
+    },
+    {
+      "id": "9130761c-8bd9-483d-99b0-3eb3040f7e96",
+      "certificateType": "PEM",
+      "name": "partner1",
+      "csmSecretType": "Certificate",
+      "authority": "Partner",
+      "serialNumber": "6718E681",
+      "startDate": "2024-10-23T12:05:21Z",
+      "expires": "2025-10-23T12:05:21Z",
+      "partnerId": "5368b020-6cb6-496b-b3e5-f2ac77dc8996",
+      "partnerPageUrl": "https://anypoint.mulesoft.com/partnermanager/#/organizations/43b555db-2264-4ed5-9c81-d456ba81aaa7/environments/e8c50b0b-cfb9-4635-972e-018b67ea5ea1/partners/f33b9f5c-a174-4a0c-b82a-eb9502f9c94b",
+      "partnerName": "Alps Inc",
+      "partnerEmail": "support@alpsinc.com",
+      "partnerPhone": "897-098-2345",
+      "usedInAs2": true
+    }
+  ]
+}

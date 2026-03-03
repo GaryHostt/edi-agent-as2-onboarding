@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:mcp="http://www.mulesoft.org/schema/mule/mcp" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/mcp http://www.mulesoft.org/schema/mule/mcp/current/mule-mcp.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="mcp-b2b-partners-search-transactions-Flow" doc:id="bdd3a82a-cdb8-48da-9160-0875423110bd" >
+		<mcp:tool-listener doc:name="search-b2b-transactions" doc:id="401dfb95-f72a-443e-b8a9-d43a21934a8a" config-ref="MCP_Server_PartnersAPI" name="search-b2b-transactions" >
+			<reconnect-forever />
+			<mcp:description ><![CDATA[Search for B2B transactions in Anypoint Partner Manager based on attribute and value. Partner Name is an optional field in the search.
+The response will include an array of message records associated with the attribute value searched, with the received timestamp, direction, partner name, message type, flow name indicating what B2B standard format was used, acknowledgement status, a business key field, and a set of attributes for each message that helps with better understanding of the message.
+The response also will include a direct URL to the message detail page in Partner Manager for the user to view data payload and perform additional research. The URL can be provided to the end user with a text of the message id, so they can click to open the message page.]]></mcp:description>
+			<mcp:parameters-schema ><![CDATA[{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "partnerName": {
+      "type": "string",
+      "description": "Name of the partner (optional)"
+    },
+    "attribute": {
+      "type": "string",
+      "description": "Type of the identifier",
+      "enum": [
+  "testLabel",
+  "testLabel3"
+]
+    },
+    "value": {
+      "type": "string",
+      "description": "Value of the attribute"
+    }
+  },
+  "required": [
+    "attribute",
+    "value"
+  ]
+}]]></mcp:parameters-schema>
+			<mcp:responses >
+				<mcp:text-tool-response-content text="#[payload.^raw]" />
+			</mcp:responses>
+		</mcp:tool-listener>
+		<logger level="INFO" doc:name="Logger" doc:id="760e2101-3854-4cb5-af6b-03399be00d7c" message="Searching for B2B transactions: #[payload]" />
+		<flow-ref doc:name="retrieve_anypointAccessToken" doc:id="65efcc82-c791-4c05-ab53-dbe6cedf6618" name="retrieve_anypointAccessToken_Sub_Flow" />
+		<choice doc:name="Choice" doc:id="010afad6-713a-4de6-914c-40d746b8e790" >
+			<when expression="#[payload.partnerName?]" >
+				<logger level="INFO" doc:name="Logger" doc:id="ff0f262d-3858-427e-9927-e2917cfcb597" message="Searching transactions for partner #[payload.partnerName]" />
+				<try doc:name="Try" doc:id="ef6095f7-d550-4bc3-aaec-b78ad47f12dc" >
+					<os:retrieve doc:name="Retrieve" doc:id="73fe8cc9-dfee-4cc7-a937-a33f00b84e40" key="apmPartnerProfiles" objectStore="Object_store_APM_Configs" target="apmPartners" />
+					<logger level="INFO" doc:name="Logger" doc:id="d5491c2b-d526-4409-a20e-ce4e6a92c107" message="APM Partners: #[vars.apmPartners]" />
+					<set-variable value="#[vars.apmPartners[?($.partnerName == payload.partnerName)].partnerId[0]]" doc:name="Set Variable" doc:id="c5a22384-0ff4-44b5-a7d6-eb856405d221" variableName="partnerId" />
+					<logger level="INFO" doc:name="Logger1" doc:id="9deb4416-42e2-4f73-b8df-e1c27850e33a" message="Partner ID #[vars.partnerId] looked up successfully from OS for partner name #[payload.partnerName]" />
+					<set-variable value="true" doc:name="partnerProfileFound - false" doc:id="07c2fcb3-7c13-40d8-9eab-e91a72fe8b48" variableName="partnerProfileFoundInOS" />
+					<error-handler >
+						<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="e9cffd82-9141-425f-af07-ee9a6ace6497" type="OS:KEY_NOT_FOUND" >
+							<logger level="INFO" doc:name="Logger" doc:id="44cc9660-4d87-42e6-a909-9105c61202c2" message="No partner profiles found in OS" />
+							<set-variable value="false" doc:name="partnerProfileFound - false" doc:id="4e3d25e5-c079-4133-8482-62033b1fbc2e" variableName="partnerProfileFoundInOS" />
+						</on-error-continue>
+					</error-handler>
+				</try>
+			</when>
+		</choice>
+		<try doc:name="Try" doc:id="209d9e78-449a-4c18-a5f5-350a5870a3ea" >
+			<os:retrieve doc:name="Retrieve" doc:id="5b3e4ea5-36bd-4723-b9a8-a42445a97f20" key="apmCustomAttributes" objectStore="Object_store_APM_Configs" target="apmCustAttributes" />
+			<set-variable value="true" doc:name="custAttrOSFound - true" doc:id="da586f4a-d08e-4821-a0c4-e1fd0b4bd2b4" variableName="custAttrOSFound" />
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="2d114775-0636-4fe4-9da3-1bdbdd32de84" >
+					<set-variable value="false" doc:name="custAttrOSFound - false" doc:id="ff394640-c3bf-427a-acd8-d00084a9289c" variableName="custAttrOSFound" />
+				</on-error-continue>
+			</error-handler>
+		</try>
+		<ee:transform doc:name="APM-Txn-Search-Params" doc:id="2356a361-549d-4bb3-aba9-8d19d2624ca6" >
+			<ee:message />
+			<ee:variables >
+				<ee:set-variable resource="maps/APM-Txn-Search-Params.dwl" variableName="txnSearchParams" />
+			</ee:variables>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger1" doc:id="53892f60-abcb-4945-91fd-3a7faa490cfb" message="Parameters sent to Tracking: #[vars.txnSearchParams]" />
+		<until-successful maxRetries="5" doc:name="Until Successful" doc:id="3b529bc5-aea5-4576-9056-d5521c5cf306" >
+			<http:request method="GET" doc:name="Search Transactions" doc:id="4767d368-07d9-4e20-9dbf-774d3b851e18" url="${anypoint.apm.url-prefix}/tracking/api/v1/organizations/${anypoint.apm.orgid}/environments/${anypoint.apm.envid}/activity/messages" >
+				<reconnect-forever />
+				<http:headers ><![CDATA[#[output application/java
+---
+{
+	"Authorization" : "Bearer " ++ vars.sessionToken
+}]]]></http:headers>
+				<http:query-params ><![CDATA[#[vars.txnSearchParams]]]></http:query-params>
+			</http:request>
+		</until-successful>
+		<logger level="INFO" doc:name="Logger2" doc:id="d1d491fe-1705-464e-95d3-ac0f97d05ae5" message="APM Txn Search Response: #[payload]" />
+		<ee:transform doc:name="APM-Txn-Search-Response-to-MCP-Client" doc:id="aca4b0da-f0fe-4212-aadd-97fdeedd16d3" >
+			<ee:message >
+				<ee:set-payload resource="maps/APM-Txn-Search-Response-to-MCP-Response.dwl" />
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger3" doc:id="89a8914e-2b02-40e5-8f00-93493c8bf6dd" message="Final Response: #[payload]" />
+		<ee:transform doc:name="Return Response" doc:id="5c0e328d-2a6c-4ae7-a222-c6a5382bb718" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output text/plain
+---
+write(payload, "application/json")
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

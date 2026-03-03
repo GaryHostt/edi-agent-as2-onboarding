@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
+	<os:object-store name="ObjectStore_APM_Utils_Config" doc:name="Object store" doc:id="9c8ee11f-9e6e-40d0-948c-ad3806557063" />
+	<flow name="anypoint-loginFlow" doc:id="d5defb3f-cf0f-4a84-afa7-93cf5d3ab83f" >
+		<scheduler doc:name="Scheduler" doc:id="97d320ee-8ab9-4b26-a86e-5470a60aaa7a" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="15" timeUnit="MINUTES"/>
+			</scheduling-strategy>
+		</scheduler>
+		<http:request method="POST" doc:name="Login to Anypoint Platform" doc:id="38cb93fd-74cb-4f57-9701-654cf24bb340" url="${anypoint.platform.login-url}" >
+			<http:body ><![CDATA[#[%dw 2.0
+output application/json
+---
+{
+  "grant_type": "client_credentials",
+  "client_id": p('anypoint.connectedapp.client-id'),
+  "client_secret": p('anypoint.connectedapp.client-secret')
+}]]]></http:body>
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"Content-Type" : "application/json"
+}]]]></http:headers>
+		</http:request>
+		<set-variable value="#[output application/java ---payload.access_token as String]" doc:name="Access Token" doc:id="b3b2f5fe-ed0a-4c14-be8c-42f8bf8f0bdf" variableName="accessToken"/>
+		<os:store doc:name="Store" doc:id="4a0631f0-9de0-4c10-a7e7-71ccc75ab960" key="anypointAccessToken" objectStore="ObjectStore_APM_Utils_Config">
+			<os:value ><![CDATA[#[vars.accessToken]]]></os:value>
+		</os:store>
+		<logger level="INFO" doc:name="Logger" doc:id="5ef3cda3-c3bb-4af9-8de7-404f9594d2f2" message='#["Updated Anypoint access token " ++ vars.accessToken]'/>
+	</flow>
+	<sub-flow name="retrieve_anypointAccessToken_Sub_Flow" doc:id="4fb66327-167f-4b15-b8bd-c6a4b65684d2" >
+		<os:retrieve doc:name="anypointAccessToken" doc:id="b165e345-f6f3-4bd0-a425-0b12effedb8d" key="anypointAccessToken" objectStore="ObjectStore_APM_Utils_Config" target="sessionToken" />
+		<choice doc:name="Choice" doc:id="288e1f74-ccdd-4507-b08a-3459461d7f03" >
+			<when expression="#[vars.sessionToken == null]" >
+				<logger level="INFO" doc:name="Logger" doc:id="945abcb7-608b-4293-8826-8ce36b14af6b" message="Access token not available; Fetching new" />
+				<flow-ref doc:name="anypoint-loginFlow" doc:id="c4f91e3a-d48f-4258-8ecc-6fe57f0b08d2" name="anypoint-loginFlow" />
+				<os:retrieve doc:name="anypointAccessToken" doc:id="5e9f69ec-49bb-42da-bb2b-a5e3f71b9e4d" key="anypointAccessToken" objectStore="ObjectStore_APM_Utils_Config" target="sessionToken" />
+			</when>
+		</choice>
+	</sub-flow>
+</mule>

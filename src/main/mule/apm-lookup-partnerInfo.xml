@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="apm-lookup-partnerInfoFlow" doc:id="74456824-a570-4baf-836e-00c1af6f98a0" >
+		<logger level="INFO" doc:name="Logger" doc:id="f82a3d41-5b33-4771-9692-643d2a3e06eb" message="Extracting partner info; #[payload]" />
+		<flow-ref doc:name="retrieve_anypointAccessToken" doc:id="1622e578-33d8-48dd-90d5-540ed5b6509f" name="retrieve_anypointAccessToken_Sub_Flow" />
+		<ee:cache doc:name="Cache" doc:id="581bf682-9743-4e20-8def-fc2880102476" >
+			<http:request method="GET" doc:name="Get APM Partner Info" doc:id="6c18c0cf-5693-4861-a4d1-d7310d5cf6d6" url="#[p('anypoint.apm.url-prefix') ++ &quot;/partners/api/v1/organizations/&quot; ++ p('anypoint.apm.orgid') ++ &quot;/environments/&quot; ++ p('anypoint.apm.envid') ++ &quot;/partnerprofiles/&quot; ++ payload.partnerId]">
+			<reconnect-forever />
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"Authorization" : "Bearer " ++ vars.sessionToken
+}]]]></http:headers>
+		</http:request>
+		</ee:cache>
+	</flow>
+</mule>

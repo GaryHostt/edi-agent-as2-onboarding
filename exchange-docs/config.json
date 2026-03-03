@@ -1,0 +1,12 @@
+{
+  "pageOrder": [
+    "home",
+    "Prerequisites",
+    "Utility Flows",
+    "MCP Tool - Create partner profile",
+    "MCP Tool - Create endpoints",
+    "MCP Tool - Get partner profiles",
+    "MCP Tool - Get certificates",
+    "MCP Tool - Search B2B Transactions"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "",
+  "name": "SFTP-Send-to-Royal-Pacific-Sports-1",
+  "description": "",
+  "endpointType": "sftp",
+  "endpointTypeId": "3bcc65e5-040b-47eb-8fc7-27c89225f1bc",
+  "endpointRole": "SEND",
+  "partnerId": "c164ad02-9025-43a8-ac0c-3d3489df2bf1",
+  "environmentId": "e8c50b0b-cfb9-4635-972e-018b67ea5ea1",
+  "visibility": "EXTERNAL",
+  "config": {
+    "authMode": {
+      "authType": "BASIC",
+      "username": "MySFTPUser1",
+      "password": "Password123"
+    },
+    "fileNamePattern": "${DocType}_${InterchangeSender}_${uuid}.${FormatTypeExt}",
+    "skipDelete": false,
+    "path": "/from-mythical",
+    "serverAddress": "sftp.royalpac.com",
+    "usage": "SEND_TO_PARTNERS",
+    "associatedMessageTypeId": null,
+    "serverPort": 22,
+    "configName": "sftp",
+    "credentials": {
+      "authType": "NONE"
+    },
+    "pollingFrequency": null,
+    "sizeCheckWaitTime": null,
+    "vpc": null
+  }
+}

@@ -1,0 +1,248 @@
+[
+    {
+        "id": "d5a12f93-d5bd-4e2b-a682-c551c86cb312",
+        "alias": "arrivalAirport",
+        "label": "Arrival Airport",
+        "searchable": true
+    },
+    {
+        "id": "1669bb06-7d6e-42eb-9400-978796ad28d4",
+        "alias": "billOfLading",
+        "label": "Bill Of Lading",
+        "searchable": true
+    },
+    {
+        "id": "b29f5f28-a61a-4712-9cd9-03f623e14a60",
+        "alias": "buyerEmail",
+        "label": "Buyer's Email",
+        "searchable": true
+    },
+    {
+        "id": "671bf025-9073-4ccb-ac7c-3f6ae371ec63",
+        "alias": "buyerName",
+        "label": "Buyer's Name",
+        "searchable": true
+    },
+    {
+        "id": "e77d3dcd-46b9-451a-a8f2-d1bba8eab91f",
+        "alias": "carrierOrderNumber",
+        "label": "Carrier Order Number",
+        "searchable": true
+    },
+    {
+        "id": "269db124-16c3-44f4-8573-7b54a21f6dc7",
+        "alias": "carrierSCAC",
+        "label": "Carrier SCAC",
+        "searchable": true
+    },
+    {
+        "id": "f67954a6-a271-4710-9617-931ff50f9bc0",
+        "alias": "carrierTrackingNumber",
+        "label": "Carrier Tracking Number",
+        "searchable": true
+    },
+    {
+        "id": "05010b5b-c81b-4a08-9523-4d25edb9b57c",
+        "alias": "claimApplicationTxnId",
+        "label": "Claim Application Transaction ID",
+        "searchable": true
+    },
+    {
+        "id": "1c3781f6-e51e-4034-b1dd-87ef9d10d1d0",
+        "alias": "claimNumber",
+        "label": "Claim Number",
+        "searchable": true
+    },
+    {
+        "id": "28d4d99f-faa2-4262-9144-7130c2cd484b",
+        "alias": "correlationId",
+        "label": "Correlation ID",
+        "searchable": true
+    },
+    {
+        "id": "2526c154-0e4a-46b0-ba17-2255c54c4c0e",
+        "alias": "serviceDate",
+        "label": "Date of Service",
+        "searchable": true
+    },
+    {
+        "id": "97a65b5b-8799-408d-862b-9bbe8fdffcda",
+        "alias": "deliveryCity",
+        "label": "Delivery City",
+        "searchable": true
+    },
+    {
+        "id": "d0129ef6-df3d-4e34-a010-352c586a0db2",
+        "alias": "departureAirport",
+        "label": "Departure Airport",
+        "searchable": true
+    },
+    {
+        "id": "8f509645-4b5d-4233-afee-334ab7a62528",
+        "alias": "emailSender",
+        "label": "Email Sender",
+        "searchable": true
+    },
+    {
+        "id": "cfa4c38c-6e4f-49ee-a654-5cb51ae1fd41",
+        "alias": "fileIdentifier",
+        "label": "File Identifier",
+        "searchable": true
+    },
+    {
+        "id": "5f2f8686-5a6d-4f3c-aafe-c979d8c012c8",
+        "alias": "fileName",
+        "label": "File Name",
+        "searchable": true
+    },
+    {
+        "id": "3b6f3ad0-85f8-426c-965e-9b53a7a37e63",
+        "alias": "flightNumber",
+        "label": "Flight Number",
+        "searchable": true
+    },
+    {
+        "id": "3439bab7-f278-48f0-99be-4b83d8c4a4cc",
+        "alias": "idpExecutionId",
+        "label": "IDP Execution ID",
+        "searchable": true
+    },
+    {
+        "id": "8f433683-5e1f-4030-b0b7-194b495e4c03",
+        "alias": "idpExecutionStatus",
+        "label": "IDP Execution Status",
+        "searchable": true
+    },
+    {
+        "id": "b47adfc5-009e-4052-97f1-ddb34ddd29a2",
+        "alias": "invoiceNumber",
+        "label": "Invoice Number",
+        "searchable": true
+    },
+    {
+        "id": "9aaaa2ff-1295-446a-81d5-3be03d39cdc8",
+        "alias": "locationIdentifier",
+        "label": "Location Identifier",
+        "searchable": true
+    },
+    {
+        "id": "013c166b-17b8-4e2b-9b82-5d65e0e34dc7",
+        "alias": "messageStatus",
+        "label": "Message Status",
+        "searchable": true
+    },
+    {
+        "id": "a60af8aa-67d8-4429-aecc-c57bdf3f7c70",
+        "alias": "orderSummaryNumber",
+        "label": "Order Summary Number",
+        "searchable": true
+    },
+    {
+        "id": "c6dc0c54-da5c-4c1e-9672-d16dad35b5f7",
+        "alias": "originDate",
+        "label": "Origin Date",
+        "searchable": true
+    },
+    {
+        "id": "5f803821-25e7-4b9d-8537-d74b5d1213dd",
+        "alias": "partnerName",
+        "label": "Partner Name",
+        "searchable": true
+    },
+    {
+        "id": "6aeac779-ab56-46f2-b256-a3d10b5da203",
+        "alias": "policyNumber",
+        "label": "Policy Number",
+        "searchable": true
+    },
+    {
+        "id": "f558c8eb-650f-4b4f-a18b-d0d34f53d1c3",
+        "alias": "posDate",
+        "label": "POS Date",
+        "searchable": true
+    },
+    {
+        "id": "ce06b8f8-695b-45af-b10f-bca31fd15a09",
+        "alias": "catalogDate",
+        "label": "Price Catalog Date",
+        "searchable": true
+    },
+    {
+        "id": "61e9f412-2560-4f13-ba02-a87aad2e6142",
+        "alias": "catalogNumber",
+        "label": "Price Catalog Number",
+        "searchable": true
+    },
+    {
+        "id": "89d2bf49-1d29-404f-bcb3-f2762f327434",
+        "alias": "providerCity",
+        "label": "Provider City",
+        "searchable": true
+    },
+    {
+        "id": "8e11ae0b-9d94-4271-8c83-5e47f88f139d",
+        "alias": "providerFacility",
+        "label": "Provider Facility",
+        "searchable": true
+    },
+    {
+        "id": "ab2a022e-fe6f-4f93-a698-c147d2dd9153",
+        "alias": "providerNPI",
+        "label": "Provider NPI",
+        "searchable": true
+    },
+    {
+        "id": "974480e1-57a7-4896-ae08-a9318400a274",
+        "alias": "purchaseOrderNumber",
+        "label": "Purchase Order Number",
+        "searchable": true
+    },
+    {
+        "id": "3975487a-5dfb-4d45-81b3-8f2fed5a70c5",
+        "alias": "responseActionCode",
+        "label": "Response Action Code",
+        "searchable": true
+    },
+    {
+        "id": "46dc9443-aedf-495f-b720-93ef9937db53",
+        "alias": "salesOrderNumber",
+        "label": "Sales Order Number",
+        "searchable": true
+    },
+    {
+        "id": "4cf715ce-9575-4220-a9b4-2c3161b88d9c",
+        "alias": "sequenceNumber",
+        "label": "Sequence Number",
+        "searchable": true
+    },
+    {
+        "id": "4d23783b-a1d3-4898-aaab-cb895bf2848e",
+        "alias": "shipmentId",
+        "label": "Shipment ID",
+        "searchable": true
+    },
+    {
+        "id": "4f74e297-18cc-4415-b343-b7782df0d3d1",
+        "alias": "tmsAPITrackingId",
+        "label": "TMS API Tracking ID",
+        "searchable": true
+    },
+    {
+        "id": "26f5bbad-6473-4afc-9fbb-c9d3b6384ec9",
+        "alias": "trackingNumber",
+        "label": "Tracking Number",
+        "searchable": true
+    },
+    {
+        "id": "aa405540-586c-4181-84e2-d5e56d81cc5c",
+        "alias": "transportationOrderNumber",
+        "label": "Transportation Order Number",
+        "searchable": true
+    },
+    {
+        "id": "74b5f0de-9bf2-480b-8b7a-f516afcd0429",
+        "alias": "whShipOrderNumber",
+        "label": "Warehouse Ship Order Number",
+        "searchable": true
+    }
+]

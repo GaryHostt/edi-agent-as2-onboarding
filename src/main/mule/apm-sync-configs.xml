@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
+	<os:config name="ObjectStore_Config" doc:name="ObjectStore Config" doc:id="2d88263e-be08-4587-b558-65476a115105" >
+		<os:connection >
+			<reconnection >
+				<reconnect-forever />
+			</reconnection>
+		</os:connection>
+	</os:config>
+	<os:object-store name="Object_store_APM_Configs" doc:name="Object store" doc:id="fe25e1af-735c-452c-b4ad-7459c4950ff8" config-ref="ObjectStore_Config" />
+	<flow name="apm-sync-configs-customAttributes-Flow" doc:id="f671387f-dc87-46f1-8d55-0668aab1942b" >
+		<scheduler doc:name="Every 5 minutes" doc:id="e7f30f93-54a5-4e28-b36a-ba9fede3baad" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="5" timeUnit="MINUTES"/>
+			</scheduling-strategy>
+		</scheduler>
+		<logger level="INFO" doc:name="Logger" doc:id="d80a7136-08f9-4add-a53c-863c621d7d1d" message="Syncing custom message attributes...."/>
+		<flow-ref doc:name="retrieve_anypointAccessToken" doc:id="8a879f17-2db6-46ee-a258-f770f2d6a0a3" name="retrieve_anypointAccessToken_Sub_Flow" />
+		<try doc:name="Try" doc:id="6c3c8626-d5d9-48d6-aacd-ec1f98504ed7" >
+			<os:retrieve doc:name="Retrieve" doc:id="4002e209-dd18-4387-9099-ecf825e1e2b7" objectStore="Object_store_APM_Configs" key="apmCustomAttributes" />
+			<set-variable value="true" doc:name="custAttFound - true" doc:id="475d1794-b6d5-4738-b5e6-417d77893413" variableName="custAttFound"/>
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="79c7d25e-dab8-47a7-ab7d-008f34d97079" type="OS:KEY_NOT_FOUND">
+					<set-variable value="false" doc:name="custAttFound - false" doc:id="6982b536-5086-422f-b640-ae829fc1dadd" variableName="custAttFound"/>
+				</on-error-continue>
+			</error-handler>
+		</try>
+		<http:request method="GET" doc:name="Get APM Custom message attributes" doc:id="5a0343f0-bdfd-4ed4-9c42-a388f3615076" url="${anypoint.apm.url-prefix}/partners/api/v1/organizations/${anypoint.apm.orgid}/environments/${anypoint.apm.envid}/customAttributes" >
+			<reconnect-forever />
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"Authorization" : "Bearer " ++ vars.sessionToken
+}]]]></http:headers>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"pageSize" : "200",
+	"searchable" : "true"
+}]]]></http:query-params>
+		</http:request>
+		<choice doc:name="Choice" doc:id="e6dd966f-2c65-43f1-9983-eb5d1b49f138" >
+			<when expression='#[attributes.statusCode == 200]'>
+				<choice doc:name="Choice" doc:id="7f1541d3-82ac-4f56-a5ea-648770c39b6b">
+			<when expression='#[vars.custAttFound == "false"]'>
+				<os:store doc:name="Store" doc:id="b00c1fcf-528e-43ef-bf74-2444419bbbec" objectStore="Object_store_APM_Configs" key="apmCustomAttributes" />
+				<logger level="INFO" doc:name="Logger" doc:id="03b66635-d690-4e8b-a004-e685ffa65bfc" message="Custom Attributes did not exist in OS. Created new entry" />
+			</when>
+			<otherwise>
+				<os:remove doc:name="Remove" doc:id="8685f713-4999-4466-8120-6eba3e74fb94" key="apmCustomAttributes" objectStore="Object_store_APM_Configs" />
+				<os:store doc:name="Store" doc:id="360e2bff-f250-451d-ad83-f1a23d3e8ed3" key="apmCustomAttributes" objectStore="Object_store_APM_Configs" />
+				<logger level="INFO" doc:name="Logger" doc:id="c379c4dc-ea11-469a-af81-292ce1fa4f6b" message="Updated custom message attributes in OS" />
+			</otherwise>
+		</choice>
+			</when>
+		</choice>
+	</flow>
+	<flow name="apm-sync-configs-partnerprofiles-Flow" doc:id="e908f2df-25e6-4331-8217-5d36bfd94535" >
+		<scheduler doc:name="Every 5 minutes" doc:id="4835ce32-33a0-47d4-af3f-9e6c10e16749" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="5" timeUnit="MINUTES" />
+			</scheduling-strategy>
+		</scheduler>
+		<logger level="INFO" doc:name="Logger" doc:id="54958a44-9e32-4f7e-bee5-c41c1b0fe2c1" message="Syncing custom message attributes...." />
+		<flow-ref doc:name="retrieve_anypointAccessToken" doc:id="dd62fcce-f787-4eba-9247-bce165440433" name="retrieve_anypointAccessToken_Sub_Flow" />
+		<try doc:name="Try" doc:id="148b65f2-8449-4119-9571-2392c11cb3cb" >
+			<os:retrieve doc:name="Retrieve" doc:id="5bf05e13-f338-4193-a177-5efa88449779" key="apmPartnerProfiles" objectStore="Object_store_APM_Configs" />
+			<set-variable value="true" doc:name="partnerProfilesFound - true" doc:id="b1be6ada-ed34-4a06-84fd-4c02d86a99a1" variableName="partnerProfilesFound" />
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="988cef0b-ec2c-4b2a-895a-795405512050" type="OS:KEY_NOT_FOUND" >
+					<set-variable value="false" doc:name="partnerProfilesFound - false" doc:id="881d6cb2-25d9-495a-ba81-7709381ae391" variableName="partnerProfilesFound" />
+				</on-error-continue>
+			</error-handler>
+		</try>
+		<http:request method="GET" doc:name="Get APM Partners List" doc:id="4956e0ab-83f0-492c-9082-e399ed5caafc" url="${anypoint.apm.url-prefix}/partners/api/v1/organizations/${anypoint.apm.orgid}/environments/${anypoint.apm.envid}/partnerprofiles">
+			<reconnect-forever />
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"Authorization" : "Bearer " ++ vars.sessionToken
+}]]]></http:headers>
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"pageSize" : "200",
+	"excludeIdentifiersCount" : "true",
+	"includeHost" : "false"
+}]]]></http:query-params>
+		</http:request>
+		<ee:transform doc:name="Transform Message" doc:id="5a4b91df-4b28-4950-95bf-f823b8a10275">
+			<ee:message>
+				<ee:set-payload resource="maps/APM-PartnerProfiles-to-Lookup.dwl" />
+			</ee:message>
+		</ee:transform>
+		<choice doc:name="Choice" doc:id="01d9d916-a25b-432a-a62a-530597d98e84" >
+			<when expression='#[attributes.statusCode == 200]'>
+				<choice doc:name="Choice" doc:id="6cebdab3-d273-4757-97db-bdf3542acf7b">
+			<when expression='#[vars.partnerProfilesFound == "false"]'>
+				<os:store doc:name="Store" doc:id="810ea2c8-60d9-41fb-9e9f-7d5e37acfaeb" key="apmPartnerProfiles" objectStore="Object_store_APM_Configs" />
+				<logger level="INFO" doc:name="Logger" doc:id="dd974486-c43c-4ea0-bf06-f5d3a3f74910" message="Partner profile lookup data did not exist in OS. Created new entry" />
+			</when>
+			<otherwise>
+				<os:remove doc:name="Remove" doc:id="94c128e6-4d3e-4623-8765-94750f1338b1" key="apmPartnerProfiles" objectStore="Object_store_APM_Configs" />
+				<os:store doc:name="Store" doc:id="55ac6e5f-b158-4a75-8799-1b13e04d753f" key="apmPartnerProfiles" objectStore="Object_store_APM_Configs" />
+				<logger level="INFO" doc:name="Logger" doc:id="52e90a05-84aa-4a17-a20c-0052968c5c48" message="Updated partner profiles for lookup in OS" />
+			</otherwise>
+		</choice>
+			</when>
+		</choice>
+	</flow>
+</mule>

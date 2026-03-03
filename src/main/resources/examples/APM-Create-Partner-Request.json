@@ -1,0 +1,35 @@
+{
+    "partnerType": "PARTNER",
+    "environmentId": "e8c50b0b-cfb9-4635-972e-018b67ea5ea1",
+    "name": "OHare",
+    "identifiers": [
+        {
+            "value": "OHARE",
+            "identifierTypeQualifierId": "fc397111-9590-4fea-a238-5853d575e04e",
+            "status": "ACTIVE"
+        },
+        {
+            "value": "OHARE",
+            "identifierTypeQualifierId": "5982e3de-4878-44ec-b55d-a39d60064250",
+            "status": "ACTIVE"
+        },
+        {
+            "value": "OHare",
+            "identifierTypeQualifierId": "5217a9a0-9bc2-47cc-8803-a9c51713e9a3",
+            "status": "ACTIVE"
+        }
+    ],
+    "contacts": [
+        {
+            "name": "OHare - B2B Support Team",
+            "email": "contact@shipper.com",
+            "phoneNumber": "123-456-7890",
+            "contactType": {
+                "id": "020f4c28-a0c2-4e70-b25d-8ab68f1a2020",
+                "name": "Technical",
+                "label": "Technical contact",
+                "description": "Technical contact"
+            }
+        }
+    ]
+}

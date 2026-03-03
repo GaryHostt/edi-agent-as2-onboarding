@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["partnerName", "endpoints"],
+  "properties": {
+    "partnerName": {
+      "type": "string",
+      "description": "Name of the partner"
+    },
+    "endpoints": {
+      "type": "array",
+      "description": "List of communication endpoints for the partner",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "endpointName",
+          "protocol",
+          "direction",
+          "serverAddress",
+          "port",
+          "authType",
+          "username",
+          "password",
+          "path"
+        ],
+        "properties": {
+          "endpointName": {
+            "type": "string",
+            "description": "Name of the endpoint"
+          },
+          "protocol": {
+            "type": "string",
+            "enum": ["sftp", "ftp", "http", "https", "as2"],
+            "description": "Communication protocol"
+          },
+          "direction": {
+            "type": "string",
+            "enum": ["RECEIVE", "SEND"],
+            "description": "Direction of data flow"
+          },
+          "serverAddress": {
+            "type": "string",
+            "description": "Server address for the endpoint"
+          },
+          "port": {
+            "type": "integer",
+            "description": "Port number"
+          },
+          "authType": {
+            "type": "string",
+            "enum": ["BASIC"],
+            "description": "Authentication type"
+          },
+          "username": {
+            "type": "string",
+            "description": "Username for authentication"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password for authentication"
+          },
+          "path": {
+            "type": "string",
+            "description": "Path on the server"
+          },
+          "supportedFormats": {
+            "type": "string",
+            "enum": ["EDI", "NON_EDI"],
+            "description": "Supported file formats"
+          },
+          "pollingFrequency": {
+            "type": ["integer", "null"],
+            "description": "Polling frequency in milliseconds."
+          },
+          "sizeCheckWaitTime": {
+            "type": ["integer", "null"],
+            "description": "Wait time for size check in milliseconds"
+          },
+          "fileNamePattern": {
+            "type": "string",
+            "description": "Pattern for matching or generating filenames"
+          }
+        }
+      }
+    }
+  }
+}

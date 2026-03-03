@@ -1,0 +1,26 @@
+[
+    {
+        "partnerId": "238be0a0-9c14-4509-93cf-34bd9f91287f",
+        "partnerName": "CalMart",
+        "partnerEmail": "edihelp@calmart.com",
+        "partnerPhone": "123-456-7890"
+    },
+    {
+        "partnerId": "088ec11e-c95c-4025-8844-25a6aff455c6",
+        "partnerName": "Office Mart.",
+        "partnerEmail": "edihelp@calmart.com",
+        "partnerPhone": "123-456-7890"
+    },
+    {
+        "partnerId": "74568793-a60c-424d-9334-9e5072939c05",
+        "partnerName": "Pet Mart",
+        "partnerEmail": "edihelp@calmart.com",
+        "partnerPhone": "123-456-7890"
+    },
+    {
+        "partnerId": "3f4d6e0c-af1f-4544-b75b-7216266a5884",
+        "partnerName": "KAG1",
+        "partnerEmail": "edihelp@calmart.com",
+        "partnerPhone": "123-456-7890"
+    }
+]

@@ -1,0 +1,27 @@
+{
+  "partnerType": "PARTNER",
+  "partnerName": "OHare",
+  "identifiers": [
+    {
+      "identifierCode": "AS2 ID",
+      "value": "OHARE"
+    },
+    {
+      "identifierCode": "X12 - ISA: ZZ",
+      "value": "OHARE"
+    },
+    {
+      "identifierCode": "X12 - GS",
+      "value": "OHARE"
+    },
+    {
+      "identifierCode": "Reference ID",
+      "value": "OHare"
+    }
+  ],
+  "contact": {
+    "name": "OHare - B2B Support Team",
+    "email": "contact@shipper.com",
+    "phoneNumber": "123-456-7890"
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "partnerprofiles": [
+    {
+      "id": "7ebd28ec-0fb6-400f-8851-d4f581b2e133",
+      "name": "Alps Inc.",
+      "partnerType": "PARTNER",
+      "status": {
+        "status": "ACTIVE"
+      },
+      "contacts": [
+        {
+          "id": "b8cb6a4a-dd72-4c6a-9602-564acfc57cf2",
+          "name": "Alps B2B Help Desk",
+          "email": "b2b-support@alpsinc.com",
+          "phoneNumber": "878-987-7900",
+          "status": "ACTIVE",
+          "contactType": {
+            "id": "020f4c28-a0c2-4e70-b25d-8ab68f1a2020",
+            "name": "Technical",
+            "label": "Technical Contact",
+            "description": "Technical Contact"
+          }
+        }
+      ],
+      "identifiers": [
+        {
+          "id": "c4e807a0-fa21-4f21-b60c-c421c07c8723",
+          "identifierTypeQualifierId": "25c1bc8a-801f-4947-a2a6-7721ef971460",
+          "status": "ACTIVE",
+          "qualifierLabel": "AS2 Identity",
+          "typeLabel": "AS2 Identity",
+          "typeName": null,
+          "code": "AS2",
+          "value": "partnera"
+        },
+        {
+          "id": "69d58b1e-f6e3-410c-9930-a91c2babf1db",
+          "identifierTypeQualifierId": "fc397111-9590-4fea-a238-5853d575e04e",
+          "status": "ACTIVE",
+          "qualifierLabel": "ZZ (Mutually Defined)",
+          "typeLabel": "X12 - ISA",
+          "typeName": null,
+          "code": "ZZ",
+          "value": "ALPSINC"
+        },
+        {
+          "id": "e6701b35-032d-4b9b-ad15-b2515eb00c3f",
+          "identifierTypeQualifierId": "5982e3de-4878-44ec-b55d-a39d60064250",
+          "status": "ACTIVE",
+          "qualifierLabel": "Group ID (GS)",
+          "typeLabel": "X12 - GS",
+          "typeName": null,
+          "code": "GS",
+          "value": "ALPSINC"
+        },
+        {
+          "id": "6d62432e-6328-439f-b0c7-7dd674a47a58",
+          "identifierTypeQualifierId": "888bbdfc-4693-4267-a0d4-22a059fde2e4",
+          "status": "ACTIVE",
+          "qualifierLabel": "02 (SCAC - Standard Carrier Alpha Code)",
+          "typeLabel": "X12 - ISA",
+          "typeName": null,
+          "code": "02",
+          "value": "ZYXW"
+        },
+        {
+          "id": "08e8eba3-a7ab-4953-a2b8-0a63a1163868",
+          "identifierTypeQualifierId": "5217a9a0-9bc2-47cc-8803-a9c51713e9a3",
+          "status": "ACTIVE",
+          "qualifierLabel": "Reference Value",
+          "typeLabel": "Reference ID",
+          "typeName": null,
+          "code": "REF_ID",
+          "value": "Alps Inc"
+        },
+        {
+          "id": "c983d11d-fac5-4bcc-918f-3180867829a7",
+          "identifierTypeQualifierId": "5217a9a0-9bc2-47cc-8803-a9c51713e9a3",
+          "status": "ACTIVE",
+          "qualifierLabel": "Reference Value",
+          "typeLabel": "Reference ID",
+          "typeName": null,
+          "code": "REF_ID",
+          "value": "ALPS-BU-12345"
+        },
+        {
+          "id": "a6286c0c-081c-4d6d-8a04-62a8e0ea5e85",
+          "identifierTypeQualifierId": "5217a9a0-9bc2-47cc-8803-a9c51713e9a3",
+          "status": "ACTIVE",
+          "qualifierLabel": "Reference Value",
+          "typeLabel": "Reference ID",
+          "typeName": null,
+          "code": "REF_ID",
+          "value": "ALPSINC"
+        },
+        {
+          "id": "b9e35687-1049-472b-aff5-c8b723a3f9d3",
+          "identifierTypeQualifierId": "70a3217e-9240-11eb-a8b3-0242ac130003",
+          "status": "ACTIVE",
+          "qualifierLabel": "1 - DUNS (Data Universal Numbering System)",
+          "typeLabel": "EDIFACT - UNB",
+          "typeName": null,
+          "code": "1",
+          "value": "ALPSINC"
+        }
+      ],
+      "protocols": [
+        "AS2"
+      ],
+      "usedInDeployments": {
+        "inboundCount": 8,
+        "outboundCount": 6
+      }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "sampleData": {
+    "6f893839-38cf-4fe2-8563-ce43770b8e49": {
+      "vars-apmProfilesFound": "sample_data/defaultstringtype.dwl"
+    },
+    "9baadf99-cbb0-42fc-8622-b4a968250ef7": {
+      "vars-endpointsList": "sample_data/json_1.json",
+      "payload": "sample_data/json.json"
+    }
+  }
+}

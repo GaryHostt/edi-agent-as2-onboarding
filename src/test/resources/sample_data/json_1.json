@@ -1,0 +1,32 @@
+{
+  "partnerName": "Royal Pacific Sports",
+  "endpoints": [
+    {
+      "protocol": "sftp",
+      "direction": "RECEIVE",
+      "serverAddress": "sftp.royalpac.com",
+      "port": 22,
+      "authType": "BASIC",
+      "username": "mySFTPUser",
+      "password": "P23982idsdss",
+      "path": "/to-mythical",
+      "supportedFormats": "EDI",
+      "pollingFrequency": 300000,
+      "sizeCheckWaitTime": 1000,
+      "fileNamePattern": "*.edi"
+    },
+    {
+      "protocol": "sftp",
+      "direction": "SEND",
+      "serverAddress": "sftp.royalpac.com",
+      "port": 22,
+      "authType": "BASIC",
+      "username": "mySFTPUser",
+      "password": "P23982idsdss",
+      "path": "/from-mythical",
+      "pollingFrequency": null,
+      "sizeCheckWaitTime": null,
+      "fileNamePattern": "${DocType}_${InterchangeSender}_${uuid}.${FormatTypeExt}"
+    }
+  ]
+}

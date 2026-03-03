@@ -1,0 +1,15 @@
+
+    {
+      "protocol": "sftp",
+      "direction": "RECEIVE",
+      "serverAddress": "sftp.royalpac.com",
+      "port": 22,
+      "authType": "BASIC",
+      "username": "mySFTPUser",
+      "password": "P23982idsdss",
+      "path": "/to-mythical",
+      "supportedFormats": "EDI",
+      "pollingFrequency": 300000,
+      "sizeCheckWaitTime": 1000,
+      "fileNamePattern": "*.edi"
+    }
