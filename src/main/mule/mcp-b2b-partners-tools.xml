@@ -175,7 +175,7 @@ output multipart/form-data
 						<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="upload-cert-http-err-001">
 							<logger level="WARN" doc:name="Partner Manager cert API error" doc:id="upload-cert-err-log-001" message="Partner Manager certificate API error response: status=#[error.attributes.statusCode default 'N/A'], body=#[payload], errorPayload=#[error.payload]" />
 							<set-variable value="#[error.description default error.message default 'Unknown error']" doc:name="errorMessage" doc:id="upload-cert-err-var-001" variableName="apiErrorMessage" />
-							<set-variable value="#[try (if (payload is String) payload else if (payload != null) write(payload, 'application/json') else '') otherwise (error.payload as String default '')]" doc:name="apiErrorBody" doc:id="upload-cert-err-body-001" variableName="apiErrorBody" />
+							<set-variable value="#[if (payload is String) payload else if (payload is Object) write(payload, 'application/json') else (error.payload as String default '')]" doc:name="apiErrorBody" doc:id="upload-cert-err-body-001" variableName="apiErrorBody" />
 							<ee:transform doc:name="API error response" doc:id="upload-cert-err-transform-001">
 								<ee:message>
 									<ee:set-payload><![CDATA[%dw 2.0
@@ -553,45 +553,90 @@ write(payload, "application/json")
 				</otherwise>
 			</choice>
 			<logger level="INFO" doc:name="Logger" doc:id="ba4f0874-6f6c-4981-b4d9-38f78667e26a" message="#[payload]"/>
-			<http:request method="POST" doc:name="Create Endpoint" doc:id="8999fcc7-52a5-4e25-bf19-b34bae1c7700" url="${anypoint.apm.url-prefix}/partners/api/v1/organizations/${anypoint.apm.orgid}/environments/${anypoint.apm.envid}/endpoints">
-			<reconnect-forever />
-			<http:headers><![CDATA[#[output application/java
+			<try doc:name="Try" doc:id="create-endpoint-try-001">
+				<http:request method="POST" doc:name="Create Endpoint" doc:id="8999fcc7-52a5-4e25-bf19-b34bae1c7700" url="${anypoint.apm.url-prefix}/partners/api/v1/organizations/${anypoint.apm.orgid}/environments/${anypoint.apm.envid}/endpoints">
+					<reconnect-forever />
+					<http:headers><![CDATA[#[output application/java
 ---
 {
 	"Authorization" : "Bearer " ++ vars.sessionToken
 }]]]></http:headers>
-			<http:query-params><![CDATA[#[output application/java
+					<http:query-params><![CDATA[#[output application/java
 ---
 {
 	"pageSize" : "200",
 	"excludeIdentifiersCount" : "true",
 	"includeHost" : "false"
 }]]]></http:query-params>
-		</http:request>
-			<logger level="INFO" doc:name="Partner Manager API response" doc:id="apm-resp-create-endpoint-001" message="Partner Manager API response: operation=create-endpoint, status=#[attributes.statusCode], id=#[payload.id default 'N/A']" />
-			<logger level="INFO" doc:name="Logger2" doc:id="bcae3774-dc32-41b1-8584-d415f2d88c49" message="Created Endpoints. #[payload]" />
+				</http:request>
+				<logger level="INFO" doc:name="Partner Manager API response" doc:id="apm-resp-create-endpoint-001" message="Partner Manager API response: operation=create-endpoint, status=#[attributes.statusCode], id=#[payload.id default 'N/A']" />
+				<logger level="INFO" doc:name="Logger2" doc:id="bcae3774-dc32-41b1-8584-d415f2d88c49" message="Created Endpoints. #[payload]" />
+				<error-handler>
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="create-endpoint-err-001">
+						<logger level="WARN" doc:name="Partner Manager endpoint API error" doc:id="create-endpoint-err-log-001" message="Partner Manager endpoint API error response: status=#[error.attributes.statusCode default 'N/A'], body=#[payload], errorPayload=#[error.payload]" />
+						<set-variable value="#[error.description default error.message default 'Unknown error']" doc:name="apiErrorMessage" doc:id="create-endpoint-err-var-001" variableName="apiErrorMessage" />
+						<set-variable value="#[if (payload is String) payload else if (payload is Object) write(payload, 'application/json') else (error.payload as String default '')]" doc:name="apiErrorBody" doc:id="create-endpoint-err-body-001" variableName="apiErrorBody" />
+						<set-variable value="#[output application/java --- {'error': 'Endpoint creation failed: ' ++ (vars.apiErrorMessage default 'Unknown error') ++ '. Check partner name, endpoint payload, and API docs.', 'apiResponse': vars.apiErrorBody default null}]" doc:name="endpointCreationError" doc:id="create-endpoint-err-var-002" variableName="endpointCreationError" />
+						<ee:transform doc:name="Endpoint error payload" doc:id="create-endpoint-err-transform-001">
+							<ee:message>
+								<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	error: "Endpoint creation failed: " ++ (vars.apiErrorMessage default "Unknown error") ++ ". Check partner name, endpoint payload, and API docs.",
+	apiResponse: vars.apiErrorBody default null
+}]]></ee:set-payload>
+							</ee:message>
+						</ee:transform>
+					</on-error-continue>
+				</error-handler>
+			</try>
 		</foreach>
-		<ee:transform doc:name="Partner Profile URL" doc:id="b83db317-ad1e-4f3b-90e5-2a052182f712">
-			<ee:message>
-				<ee:set-payload><![CDATA[%dw 2.0
+		<choice doc:name="Endpoint creation error?" doc:id="create-endpoint-choice-001">
+			<when expression="#[vars.endpointCreationError != null]">
+				<ee:transform doc:name="Endpoint error response" doc:id="create-endpoint-err-out-001">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+vars.endpointCreationError]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<ee:transform doc:name="Return Response (error)" doc:id="create-endpoint-return-err-001" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output text/plain
+---
+write(payload, "application/json")
+]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<logger level="INFO" doc:name="Logger4 (error path)" doc:id="create-endpoint-log4-err-001" message="Final Response: #[payload]" />
+			</when>
+			<otherwise>
+				<ee:transform doc:name="Partner Profile URL" doc:id="b83db317-ad1e-4f3b-90e5-2a052182f712">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
 output application/json
 ---
 {
 	"partnerName": vars.endpointsList.partnerName,
 	"endpointsCreated": vars.endpointsList.endpoints.protocol
 }]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<logger level="INFO" doc:name="Logger3" doc:id="98f89194-b5e3-42b1-a62c-869b31e057f6" message="Partner Creation Response: #[payload]" />
-		<ee:transform doc:name="Return Response" doc:id="30dfedd7-6770-4ddf-a563-f5e7ca14eadd" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
+					</ee:message>
+				</ee:transform>
+				<logger level="INFO" doc:name="Logger3" doc:id="98f89194-b5e3-42b1-a62c-869b31e057f6" message="Partner Creation Response: #[payload]" />
+				<ee:transform doc:name="Return Response" doc:id="30dfedd7-6770-4ddf-a563-f5e7ca14eadd" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
 output text/plain
 ---
 write(payload, "application/json")
 ]]></ee:set-payload>
-			</ee:message>
-		</ee:transform>
-		<logger level="INFO" doc:name="Logger4" doc:id="dea1e71a-2871-4b79-a80b-3c6c9276ebee" message="Final Response: #[payload]" />
+					</ee:message>
+				</ee:transform>
+				<logger level="INFO" doc:name="Logger4" doc:id="dea1e71a-2871-4b79-a80b-3c6c9276ebee" message="Final Response: #[payload]" />
+			</otherwise>
+		</choice>
 	</flow>
 </mule>

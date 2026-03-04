@@ -4,7 +4,7 @@ output application/json
 ---
 {
 	id: "",
-	name: (payload.endpointName default "AS2-Send-to-" ++ vars.endpointsList.partnerName),
+	name: (payload.endpointName default ("AS2-Send-to-" ++ vars.endpointsList.partnerName)),
 	description: payload.description default "AS2 Send endpoint created by MCP Tool",
 	endpointType: "as2",
 	endpointTypeId: APMLookups::endpointTypes[?($.endpointType == "as2")].endpointTypeId[0],
