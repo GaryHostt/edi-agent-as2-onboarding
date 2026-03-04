@@ -12,7 +12,7 @@ output application/json
 	partnerId: vars.apmPartners[?($.partnerName == vars.endpointsList.partnerName)].partnerId[0],
 	environmentId: p('anypoint.apm.envid'),
 	visibility: "EXTERNAL",
-	supportedFormatTypes: payload.supportedFormats default "",
+	supportedFormatTypes: payload.supportedFormats default "EDI",
 	config: {
 		hostAs2Identifier: payload.hostAs2Identifier,
 		partnerAs2Identifier: payload.partnerAs2Identifier default null,

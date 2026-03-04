@@ -419,7 +419,7 @@ write(payload, "application/json")
 	<flow name="mcp-b2b-partner-CreateEndpoints-Flow1" doc:id="00333679-76fd-4d09-b3fd-35d4d9c698ec" >
 		<mcp:tool-listener doc:name="create-b2b-endpoints" doc:id="c248b391-5bc0-45b5-861d-7b909a957506" config-ref="MCP_Server_PartnersAPI" name="create-b2b-endpoints" >
 			<reconnect-forever />
-			<mcp:description ><![CDATA[Create new endpoints in Partner Manager for protocols such as SFTP, FTP, HTTP, HTTPS and AS2.]]></mcp:description>
+			<mcp:description ><![CDATA[Create new endpoints in Partner Manager for protocols such as SFTP, FTP, HTTP, HTTPS and AS2. For AS2 endpoints, supportedFormats (EDI or NON_EDI) is often required by the API. If the API returns 400, check for duplicate endpoint name, conflicting AS2 identifiers, or environment-specific requirements (e.g. host keystore or API Manager instance).]]></mcp:description>
 			<mcp:parameters-schema ><![CDATA[{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
@@ -466,7 +466,7 @@ write(payload, "application/json")
           "username": { "type": "string", "description": "Username for authentication (SFTP)" },
           "password": { "type": "string", "description": "Password for authentication (SFTP)" },
           "path": { "type": "string", "description": "Path on the server (SFTP)" },
-          "supportedFormats": { "type": "string", "enum": ["EDI", "NON_EDI"], "description": "Supported file formats" },
+          "supportedFormats": { "type": "string", "enum": ["EDI", "NON_EDI"], "description": "Supported file formats. For AS2, Partner Manager often requires EDI or NON_EDI; omit to default to EDI." },
           "pollingFrequency": { "type": ["integer", "null"], "description": "Polling frequency in milliseconds" },
           "sizeCheckWaitTime": { "type": ["integer", "null"], "description": "Wait time for size check in milliseconds" },
           "fileNamePattern": { "type": "string", "description": "Pattern for matching or generating filenames" },
@@ -573,9 +573,9 @@ write(payload, "application/json")
 				<logger level="INFO" doc:name="Logger2" doc:id="bcae3774-dc32-41b1-8584-d415f2d88c49" message="Created Endpoints. #[payload]" />
 				<error-handler>
 					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="create-endpoint-err-001">
-						<logger level="WARN" doc:name="Partner Manager endpoint API error" doc:id="create-endpoint-err-log-001" message="Partner Manager endpoint API error response: status=#[error.attributes.statusCode default 'N/A'], body=#[payload], errorPayload=#[error.payload]" />
+						<logger level="WARN" doc:name="Partner Manager endpoint API error" doc:id="create-endpoint-err-log-001" message="Partner Manager endpoint API error response: status=#[error.attributes.statusCode default 'N/A'], body=#[payload], errorPayload=#[error.payload], errorDetail=#[error.detail]" />
 						<set-variable value="#[error.description default error.message default 'Unknown error']" doc:name="apiErrorMessage" doc:id="create-endpoint-err-var-001" variableName="apiErrorMessage" />
-						<set-variable value="#[if (payload is String) payload else if (payload is Object) write(payload, 'application/json') else (error.payload as String default '')]" doc:name="apiErrorBody" doc:id="create-endpoint-err-body-001" variableName="apiErrorBody" />
+						<set-variable value="#[if (error.detail != null) (error.detail as String default '') else (if (payload is String) payload else if (payload is Object) write(payload, 'application/json') else (error.payload as String default ''))]" doc:name="apiErrorBody" doc:id="create-endpoint-err-body-001" variableName="apiErrorBody" />
 						<set-variable value="#[output application/java --- {'error': 'Endpoint creation failed: ' ++ (vars.apiErrorMessage default 'Unknown error') ++ '. Check partner name, endpoint payload, and API docs.', 'apiResponse': vars.apiErrorBody default null}]" doc:name="endpointCreationError" doc:id="create-endpoint-err-var-002" variableName="endpointCreationError" />
 						<ee:transform doc:name="Endpoint error payload" doc:id="create-endpoint-err-transform-001">
 							<ee:message>
