@@ -45,6 +45,7 @@ http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/cu
 	"searchable" : "true"
 }]]]></http:query-params>
 		</http:request>
+		<logger level="INFO" doc:name="Partner Manager API response" doc:id="apm-resp-customAttributes-001" message="Partner Manager API response: operation=get-customAttributes, status=#[attributes.statusCode]" />
 		<choice doc:name="Choice" doc:id="e6dd966f-2c65-43f1-9983-eb5d1b49f138" >
 			<when expression='#[attributes.statusCode == 200]'>
 				<choice doc:name="Choice" doc:id="7f1541d3-82ac-4f56-a5ea-648770c39b6b">
@@ -93,6 +94,7 @@ http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/cu
 	"includeHost" : "false"
 }]]]></http:query-params>
 		</http:request>
+		<logger level="INFO" doc:name="Partner Manager API response" doc:id="apm-resp-partnerprofiles-sync-001" message="Partner Manager API response: operation=get-partnerprofiles-sync, status=#[attributes.statusCode]" />
 		<ee:transform doc:name="Transform Message" doc:id="5a4b91df-4b28-4950-95bf-f823b8a10275">
 			<ee:message>
 				<ee:set-payload resource="maps/APM-PartnerProfiles-to-Lookup.dwl" />
@@ -113,5 +115,15 @@ http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/cu
 		</choice>
 			</when>
 		</choice>
+	</flow>
+	<flow name="warm-os-after-token-Flow" doc:id="warm-os-startup-001" >
+		<scheduler doc:name="Scheduler" doc:id="warm-os-scheduler-001" >
+			<scheduling-strategy >
+				<fixed-frequency startDelay="8" frequency="86400" timeUnit="SECONDS"/>
+			</scheduling-strategy>
+		</scheduler>
+		<flow-ref doc:name="retrieve_anypointAccessToken" doc:id="warm-os-token-001" name="retrieve_anypointAccessToken_Sub_Flow" />
+		<flow-ref doc:name="Sync Partner Profiles" doc:id="warm-os-partners-001" name="apm-sync-configs-partnerprofiles-Flow"/>
+		<flow-ref doc:name="Sync Custom Attributes" doc:id="warm-os-attrs-001" name="apm-sync-configs-customAttributes-Flow"/>
 	</flow>
 </mule>

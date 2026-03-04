@@ -2,6 +2,8 @@
 
 Two collections for testing the Partner Manager Mule app and the Anypoint/Partner Manager APIs it uses.
 
+**Deployment:** After pulling or changing Mule configs, run `mvn clean package` and redeploy the JAR (or run from Anypoint Code Builder) so the runtime loads an artifact that includes all configs (e.g. `apm-lookup-partnerInfo.xml`).
+
 ## Importing
 
 1. Open Postman.

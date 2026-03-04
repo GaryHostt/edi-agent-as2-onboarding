@@ -34,7 +34,7 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 }]]>
 			</mcp:parameters-schema>
 			<mcp:responses >
-				<mcp:text-tool-response-content text="#[payload.^raw]" />
+				<mcp:text-tool-response-content text="#[(payload.^raw default payload) default '']" />
 			</mcp:responses>
 		</mcp:tool-listener>
 		
@@ -57,6 +57,7 @@ http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mu
 	"Authorization" : "Bearer " ++ vars.sessionToken
 }]]]></http:headers>
 		</http:request>
+		<logger level="INFO" doc:name="Partner Manager API response" doc:id="apm-resp-certificates-001" message="Partner Manager API response: operation=get-certificates, status=#[attributes.statusCode]" />
 		<ee:transform doc:name="Certificates List" doc:id="6f893839-38cf-4fe2-8563-ce43770b8e49" >
 			<ee:message >
 				<ee:set-payload resource="maps/APM-Certificates-List.dwl" />
@@ -76,7 +77,7 @@ write(payload, "application/json")
 	<flow name="mcp-b2b-partner-upload-certificate-Flow" doc:id="upload-cert-flow-001" >
 		<mcp:tool-listener doc:name="upload-b2b-partner-certificate" doc:id="upload-cert-tool-001" config-ref="MCP_Server_PartnersAPI" name="upload-b2b-partner-certificate">
 			<reconnect-forever />
-			<mcp:description><![CDATA[Upload a public certificate or identity key for a B2B partner in Anypoint Partner Manager. Returns the certificate UUID (certificateId) for use as partnerCertificateId when calling create-b2b-endpoints for an AS2 Send endpoint. Provide partner name (must already exist), certificate name, type (PUBLIC or IDENTITY_KEY), and PEM content.]]></mcp:description>
+			<mcp:description><![CDATA[Upload a public certificate or identity key for a B2B partner in Anypoint Partner Manager. Returns the certificate UUID (certificateId) for use as partnerCertificateId when calling create-b2b-endpoints for an AS2 Send endpoint. Provide partner name (must already exist; must exactly match the name in Partner Manager, e.g. "Sunny Farms" not "Sunny Farmss"), certificate name, type (PUBLIC or IDENTITY_KEY), and PEM content.]]></mcp:description>
 			<mcp:parameters-schema><![CDATA[{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
@@ -90,9 +91,10 @@ write(payload, "application/json")
   "required": ["partnerName", "certificateName", "certificateType", "certificatePem"]
 }]]></mcp:parameters-schema>
 			<mcp:responses>
-				<mcp:text-tool-response-content text="#[payload.^raw]" />
+				<mcp:text-tool-response-content text="#[(payload.^raw default payload) default '']" />
 			</mcp:responses>
 		</mcp:tool-listener>
+		<try doc:name="Try" doc:id="upload-cert-flow-try-001">
 		<logger level="INFO" doc:name="Logger" doc:id="upload-cert-log-001" message="Upload certificate: partnerName=#[payload.partnerName], certificateName=#[payload.certificateName], certificateType=#[payload.certificateType]" />
 		<ee:transform doc:name="Normalize partner name" doc:id="upload-cert-reqname-001">
 			<ee:variables>
@@ -103,7 +105,7 @@ if (payload.partnerName is Array) payload.partnerName[0] else payload.partnerNam
 			</ee:variables>
 		</ee:transform>
 		<flow-ref doc:name="retrieve_anypointAccessToken" doc:id="upload-cert-token-001" name="retrieve_anypointAccessToken_Sub_Flow" />
-		<until-successful maxRetries="2" doc:name="Until Successful" doc:id="upload-cert-until-001" millisBetweenRetries="30000">
+		<until-successful maxRetries="1" doc:name="Until Successful" doc:id="upload-cert-until-001" millisBetweenRetries="10000">
 			<try doc:name="Try" doc:id="upload-cert-try-001">
 				<os:retrieve doc:name="Retrieve" doc:id="upload-cert-os-001" key="apmPartnerProfiles" objectStore="Object_store_APM_Configs" />
 				<set-variable value="#[payload]" doc:name="apmPartners" doc:id="upload-cert-set-001" variableName="apmPartners" />
@@ -114,24 +116,49 @@ if (payload.partnerName is Array) payload.partnerName[0] else payload.partnerNam
 				</error-handler>
 			</try>
 		</until-successful>
-		<set-variable value="#[vars.apmPartners[?($.partnerName == vars.requestPartnerName)].partnerId[0]]" doc:name="partnerId" doc:id="upload-cert-partnerid-001" variableName="partnerId" />
+		<set-variable value="#[output application/java --- vars.apmPartners[?($.partnerName == vars.requestPartnerName)].partnerId[0]]" doc:name="partnerId" doc:id="upload-cert-partnerid-001" variableName="partnerId" />
 		<choice doc:name="Partner found?" doc:id="upload-cert-choice-001">
 			<when expression="#[vars.partnerId != null]">
-				<ee:transform doc:name="Build certificate create body" doc:id="upload-cert-dwl-001">
+				<ee:transform doc:name="Build certificate multipart body" doc:id="upload-cert-dwl-001">
 					<ee:message>
-						<ee:set-payload resource="maps/MCP-Upload-Certificate-to-APM-Certificate-Create.dwl" />
+						<ee:set-payload><![CDATA[%dw 2.0
+output multipart/form-data
+---
+{
+	parts: {
+		certType: {
+			headers: {
+				"Content-Disposition": { name: "certType" }
+			},
+			content: payload.certificateType
+		},
+		certName: {
+			headers: {
+				"Content-Disposition": { name: "certName" }
+			},
+			content: payload.certificateName
+		},
+		certFile: {
+			headers: {
+				"Content-Disposition": { name: "certFile", filename: "certificate.pem" },
+				"Content-Type": "application/x-pem-file"
+			},
+			content: payload.certificatePem as Binary
+		}
+	}
+}]]></ee:set-payload>
 					</ee:message>
 				</ee:transform>
 				<try doc:name="Try" doc:id="upload-cert-try-http-001">
-					<http:request method="POST" doc:name="Create partner certificate" doc:id="upload-cert-http-001" url="${anypoint.apm.url-prefix}/partners/api/v1/organizations/${anypoint.apm.orgid}/environments/${anypoint.apm.envid}/partnerprofiles/$(vars.partnerId)/certificates">
+					<http:request method="POST" doc:name="Create partner certificate" doc:id="upload-cert-http-001" url="#[p('anypoint.apm.url-prefix') ++ '/partners/api/v1/organizations/' ++ p('anypoint.apm.orgid') ++ '/environments/' ++ p('anypoint.apm.envid') ++ '/partners/' ++ vars.partnerId ++ '/certificates']">
 						<reconnect-forever />
 						<http:headers><![CDATA[#[output application/java
 ---
 {
-	"Authorization" : "Bearer " ++ vars.sessionToken,
-	"Content-Type" : "application/json"
+	"Authorization" : "Bearer " ++ vars.sessionToken
 }]]]></http:headers>
 					</http:request>
+					<logger level="INFO" doc:name="Partner Manager API response" doc:id="apm-resp-create-cert-001" message="Partner Manager API response: operation=create-certificate, status=#[attributes.statusCode], certificateId=#[payload.id]" />
 					<error-handler>
 						<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="upload-cert-http-err-001">
 							<set-variable value="#[error.description default error.message default 'Unknown error']" doc:name="errorMessage" doc:id="upload-cert-err-var-001" variableName="apiErrorMessage" />
@@ -185,6 +212,31 @@ output text/plain
 				</ee:transform>
 			</otherwise>
 		</choice>
+		<error-handler>
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="upload-cert-flow-err-001">
+				<set-variable value="#[error.description default error.message default 'Unknown error']" doc:name="errorMessage" doc:id="upload-cert-flow-err-var-001" variableName="flowErrorMessage" />
+				<ee:transform doc:name="Flow error response" doc:id="upload-cert-flow-err-transform-001">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	certificateId: null,
+	error: "Certificate upload failed: " ++ vars.flowErrorMessage
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<ee:transform doc:name="Flow error to text" doc:id="upload-cert-flow-err-text-001">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output text/plain
+---
+write(payload, "application/json")]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</on-error-continue>
+		</error-handler>
+		</try>
 	</flow>
 	<flow name="mcp-b2b-partner-getpartnerprofiles-Flow" doc:id="e7b8094b-f783-42d7-9e40-f234e7a53b8c" >
 		<mcp:tool-listener doc:name="get-b2b-partner-profiles" doc:id="61ec66b1-b2ff-4c71-bd5a-16e39446dfba" config-ref="MCP_Server_PartnersAPI" name="get-b2b-partner-profiles">
@@ -197,7 +249,7 @@ output text/plain
   "required": []
 }]]></mcp:parameters-schema>
 			<mcp:responses >
-				<mcp:text-tool-response-content text="#[payload.^raw]" />
+				<mcp:text-tool-response-content text="#[(payload.^raw default payload) default '']" />
 			</mcp:responses>
 		</mcp:tool-listener>
 		<logger level="INFO" doc:name="Logger" doc:id="f3f753da-4031-40cd-8fbf-da407024e3e3" message="Retrieving Anypoint Partner Manager Partner Profiles" />
@@ -217,6 +269,7 @@ output text/plain
 	"includeHost" : "false"
 }]]]></http:query-params>
 		</http:request>
+		<logger level="INFO" doc:name="Partner Manager API response" doc:id="apm-resp-get-partnerprofiles-001" message="Partner Manager API response: operation=get-partnerprofiles, status=#[attributes.statusCode]" />
 		<logger level="INFO" doc:name="Logger" doc:id="2a9fdb5e-4065-42a6-86a4-deda3d0ed694" message="#[payload]"/>
 		<ee:transform doc:name="Transform Message" doc:id="534121d8-a5d0-4767-8c01-4b32cbc955d2" >
 			<ee:message >
@@ -237,7 +290,7 @@ write(payload, "application/json")
 		<mcp:tool-listener doc:name="create-b2b-partner-profile" doc:id="63fab3c6-c5f5-4ed2-8415-901e9bc1b0c5" config-ref="MCP_Server_PartnersAPI" name="create-b2b-partner-profile">
 			<reconnect-forever />
 			<mcp:description ><![CDATA[Create a new B2B partner profile in Anypoint Partner Manager, with name, identifiers, and Contact information.
-The response includes the newly created partner's id and an URL that the user can directly click to open the partner profile page in Anypoint Partner Manager.]]></mcp:description>
+The response includes the newly created partner's id and an URL that the user can directly click to open the partner profile page in Anypoint Partner Manager. When referencing this partner later (e.g. upload certificate), use the exact same partner name.]]></mcp:description>
 			<mcp:parameters-schema ><![CDATA[{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
@@ -294,7 +347,7 @@ The response includes the newly created partner's id and an URL that the user ca
   "additionalProperties": false
 }]]></mcp:parameters-schema>
 			<mcp:responses >
-				<mcp:text-tool-response-content text="#[payload.^raw]" />
+				<mcp:text-tool-response-content text="#[(payload.^raw default payload) default '']" />
 			</mcp:responses>
 		</mcp:tool-listener>
 		<logger level="INFO" doc:name="Logger" doc:id="17b94d0d-11bd-43c1-b3c4-daeaf4028c1c" message="Creating new partner profile: #[payload]" />
@@ -320,6 +373,7 @@ The response includes the newly created partner's id and an URL that the user ca
 	"includeHost" : "false"
 }]]]></http:query-params>
 		</http:request>
+		<logger level="INFO" doc:name="Partner Manager API response" doc:id="apm-resp-create-partner-001" message="Partner Manager API response: operation=create-partner, status=#[attributes.statusCode], partnerId=#[payload.id]" />
 		<logger level="INFO" doc:name="Logger" doc:id="ffdbdaad-1744-48b4-859f-f159185cb04f" message="Created partner profile. #[payload.id]"/>
 		<ee:transform doc:name="Partner Profile URL" doc:id="12946005-eb46-4585-bc17-a3a50fbe6869" >
 			<ee:message >
@@ -425,7 +479,7 @@ write(payload, "application/json")
   }
 }]]></mcp:parameters-schema>
 			<mcp:responses >
-				<mcp:text-tool-response-content text="#[payload.^raw]" />
+				<mcp:text-tool-response-content text="#[(payload.^raw default payload) default '']" />
 			</mcp:responses>
 		</mcp:tool-listener>
 		<logger level="INFO" doc:name="Logger" doc:id="e913d975-2c68-4b4b-b7ea-fe475ef279ad" message="Creating new endpoints: #[payload]" />
@@ -499,6 +553,7 @@ write(payload, "application/json")
 	"includeHost" : "false"
 }]]]></http:query-params>
 		</http:request>
+			<logger level="INFO" doc:name="Partner Manager API response" doc:id="apm-resp-create-endpoint-001" message="Partner Manager API response: operation=create-endpoint, status=#[attributes.statusCode], id=#[payload.id default 'N/A']" />
 			<logger level="INFO" doc:name="Logger2" doc:id="bcae3774-dc32-41b1-8584-d415f2d88c49" message="Created Endpoints. #[payload]" />
 		</foreach>
 		<ee:transform doc:name="Partner Profile URL" doc:id="b83db317-ad1e-4f3b-90e5-2a052182f712">

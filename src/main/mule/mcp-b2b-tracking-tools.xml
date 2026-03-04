@@ -53,7 +53,7 @@ The response also will include a direct URL to the message detail page in Partne
 				<try doc:name="Try" doc:id="ef6095f7-d550-4bc3-aaec-b78ad47f12dc" >
 					<os:retrieve doc:name="Retrieve" doc:id="73fe8cc9-dfee-4cc7-a937-a33f00b84e40" key="apmPartnerProfiles" objectStore="Object_store_APM_Configs" target="apmPartners" />
 					<logger level="INFO" doc:name="Logger" doc:id="d5491c2b-d526-4409-a20e-ce4e6a92c107" message="APM Partners: #[vars.apmPartners]" />
-					<set-variable value="#[vars.apmPartners[?($.partnerName == payload.partnerName)].partnerId[0]]" doc:name="Set Variable" doc:id="c5a22384-0ff4-44b5-a7d6-eb856405d221" variableName="partnerId" />
+					<set-variable value="#[output application/java --- vars.apmPartners[?($.partnerName == payload.partnerName)].partnerId[0]]" doc:name="Set Variable" doc:id="c5a22384-0ff4-44b5-a7d6-eb856405d221" variableName="partnerId" />
 					<logger level="INFO" doc:name="Logger1" doc:id="9deb4416-42e2-4f73-b8df-e1c27850e33a" message="Partner ID #[vars.partnerId] looked up successfully from OS for partner name #[payload.partnerName]" />
 					<set-variable value="true" doc:name="partnerProfileFound - false" doc:id="07c2fcb3-7c13-40d8-9eab-e91a72fe8b48" variableName="partnerProfileFoundInOS" />
 					<error-handler >
@@ -91,6 +91,7 @@ The response also will include a direct URL to the message detail page in Partne
 }]]]></http:headers>
 				<http:query-params ><![CDATA[#[vars.txnSearchParams]]]></http:query-params>
 			</http:request>
+			<logger level="INFO" doc:name="Partner Manager API response" doc:id="apm-resp-search-transactions-001" message="Partner Manager API response: operation=search-transactions, status=#[attributes.statusCode]" />
 		</until-successful>
 		<logger level="INFO" doc:name="Logger2" doc:id="d1d491fe-1705-464e-95d3-ac0f97d05ae5" message="APM Txn Search Response: #[payload]" />
 		<ee:transform doc:name="APM-Txn-Search-Response-to-MCP-Client" doc:id="aca4b0da-f0fe-4212-aadd-97fdeedd16d3" >

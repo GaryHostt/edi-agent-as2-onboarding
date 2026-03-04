@@ -43,4 +43,12 @@ output application/json
 			</when>
 		</choice>
 	</sub-flow>
+	<flow name="warm-token-on-startup-Flow" doc:id="warm-token-startup-001" >
+		<scheduler doc:name="Scheduler" doc:id="warm-token-scheduler-001" >
+			<scheduling-strategy >
+				<fixed-frequency startDelay="2" frequency="86400" timeUnit="SECONDS"/>
+			</scheduling-strategy>
+		</scheduler>
+		<flow-ref doc:name="retrieve_anypointAccessToken" doc:id="warm-token-ref-001" name="retrieve_anypointAccessToken_Sub_Flow" />
+	</flow>
 </mule>

@@ -17,6 +17,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	"Authorization" : "Bearer " ++ vars.sessionToken
 }]]]></http:headers>
 		</http:request>
+		<logger level="INFO" doc:name="Partner Manager API response" doc:id="apm-resp-partnerInfo-001" message="Partner Manager API response: operation=get-partnerInfo, status=#[attributes.statusCode]" />
 		</ee:cache>
 	</flow>
 </mule>

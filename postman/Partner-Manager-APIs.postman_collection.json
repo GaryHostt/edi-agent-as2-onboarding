@@ -126,17 +126,21 @@
 					"request": {
 						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{access_token}}", "type": "string" }] },
 						"method": "POST",
-						"header": [{ "key": "Content-Type", "value": "application/json" }],
+						"header": [],
 						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"name\": \"my-partner-cert\",\n  \"certificateType\": \"PEM\",\n  \"certificate\": \"-----BEGIN CERTIFICATE-----\\n...replace with actual PEM content...\\n-----END CERTIFICATE-----\"\n}"
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "certType", "value": "PUBLIC", "type": "text", "description": "Certificate type (e.g. PUBLIC or IDENTITY_KEY)" },
+								{ "key": "certName", "value": "my-partner-cert", "type": "text", "description": "Display name for the certificate" },
+								{ "key": "certFile", "type": "file", "src": "", "description": "PEM certificate file" }
+							]
 						},
 						"url": {
-							"raw": "{{base_apm}}/partners/api/v1/organizations/{{org_id}}/environments/{{env_id}}/partnerprofiles/{{partner_id}}/certificates",
+							"raw": "{{base_apm}}/partners/api/v1/organizations/{{org_id}}/environments/{{env_id}}/partners/{{partner_id}}/certificates",
 							"host": ["{{base_apm}}"],
-							"path": ["partners", "api", "v1", "organizations", "{{org_id}}", "environments", "{{env_id}}", "partnerprofiles", "{{partner_id}}", "certificates"]
+							"path": ["partners", "api", "v1", "organizations", "{{org_id}}", "environments", "{{env_id}}", "partners", "{{partner_id}}", "certificates"]
 						},
-						"description": "Create a digital certificate for a partner (public cert or identity key). Set partner_id to a valid partner UUID. Returns created certificate with id (use as partnerCertificateId in create-b2b-endpoints for AS2 Send). Mirrors upload-b2b-partner-certificate MCP tool."
+						"description": "Create a digital certificate for a partner (multipart/form-data: certType, certName, certFile). Set partner_id to a valid partner UUID. Returns created certificate with id (use as partnerCertificateId in create-b2b-endpoints for AS2 Send). Mirrors upload-b2b-partner-certificate MCP tool."
 					}
 				}
 			]
