@@ -102,6 +102,18 @@ write(payload, "application/json")
 output application/java
 ---
 if (payload.partnerName is Array) payload.partnerName[0] else payload.partnerName]]></ee:set-variable>
+				<ee:set-variable variableName="certificateName"><![CDATA[%dw 2.0
+output application/java
+---
+payload.certificateName]]></ee:set-variable>
+				<ee:set-variable variableName="certificateType"><![CDATA[%dw 2.0
+output application/java
+---
+payload.certificateType]]></ee:set-variable>
+				<ee:set-variable variableName="certificatePem"><![CDATA[%dw 2.0
+output application/java
+---
+payload.certificatePem]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
 		<flow-ref doc:name="retrieve_anypointAccessToken" doc:id="upload-cert-token-001" name="retrieve_anypointAccessToken_Sub_Flow" />
@@ -130,20 +142,20 @@ output multipart/form-data
 			headers: {
 				"Content-Disposition": { name: "certType" }
 			},
-			content: payload.certificateType
+			content: if (vars.certificateType == "PUBLIC" or vars.certificateType == "IDENTITY_KEY") "PEM" else vars.certificateType
 		},
 		certName: {
 			headers: {
 				"Content-Disposition": { name: "certName" }
 			},
-			content: payload.certificateName
+			content: vars.certificateName
 		},
 		certFile: {
 			headers: {
 				"Content-Disposition": { name: "certFile", filename: "certificate.pem" },
-				"Content-Type": "application/x-pem-file"
+				"Content-Type": "text/plain"
 			},
-			content: payload.certificatePem as Binary
+			content: vars.certificatePem as Binary
 		}
 	}
 }]]></ee:set-payload>
@@ -161,7 +173,9 @@ output multipart/form-data
 					<logger level="INFO" doc:name="Partner Manager API response" doc:id="apm-resp-create-cert-001" message="Partner Manager API response: operation=create-certificate, status=#[attributes.statusCode], certificateId=#[payload.id]" />
 					<error-handler>
 						<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="upload-cert-http-err-001">
+							<logger level="WARN" doc:name="Partner Manager cert API error" doc:id="upload-cert-err-log-001" message="Partner Manager certificate API error response: status=#[error.attributes.statusCode default 'N/A'], body=#[payload], errorPayload=#[error.payload]" />
 							<set-variable value="#[error.description default error.message default 'Unknown error']" doc:name="errorMessage" doc:id="upload-cert-err-var-001" variableName="apiErrorMessage" />
+							<set-variable value="#[try (if (payload is String) payload else if (payload != null) write(payload, 'application/json') else '') otherwise (error.payload as String default '')]" doc:name="apiErrorBody" doc:id="upload-cert-err-body-001" variableName="apiErrorBody" />
 							<ee:transform doc:name="API error response" doc:id="upload-cert-err-transform-001">
 								<ee:message>
 									<ee:set-payload><![CDATA[%dw 2.0
@@ -169,7 +183,8 @@ output application/json
 ---
 {
 	certificateId: null,
-	error: "Certificate upload failed: " ++ vars.apiErrorMessage ++ ". Check partner name, PEM content, and API docs."
+	error: "Certificate upload failed: " ++ vars.apiErrorMessage ++ ". Check partner name, PEM content, and API docs.",
+	apiResponse: vars.apiErrorBody default null
 }]]></ee:set-payload>
 								</ee:message>
 							</ee:transform>
