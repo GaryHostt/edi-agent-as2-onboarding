@@ -52,4 +52,4 @@ velocity.log
 .tooling-project
 
 # Local Partner Manager / Anypoint config (may contain secrets)
-src/main/resources/config/configuration.yaml/src/main/resources/config/configuration.yaml
+src/main/resources/config/configuration.yamlsrc/main/resources/config/configuration.yaml

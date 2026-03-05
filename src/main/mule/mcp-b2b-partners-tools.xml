@@ -266,9 +266,9 @@ write(payload, "application/json")]]></ee:set-payload>
     "type": { "type": "string", "description": "Keystore type; use PEM", "default": "PEM" },
     "publicCertificatePem": { "type": "string", "description": "Public certificate content in PEM format" },
     "privateKeyPem": { "type": "string", "description": "Private key content in PEM format" },
-    "keyPassphrase": { "type": "string", "description": "Passphrase for the private key file" }
+    "keyPassphrase": { "type": "string", "description": "Passphrase for the private key; omit or leave empty for unencrypted keys." }
   },
-  "required": ["partnerName", "keystoreName", "publicCertificatePem", "privateKeyPem", "keyPassphrase"]
+  "required": ["partnerName", "keystoreName", "publicCertificatePem", "privateKeyPem"]
 }]]></mcp:parameters-schema>
 			<mcp:responses>
 				<mcp:text-tool-response-content text="#[(payload.^raw default payload) default '']" />
@@ -356,7 +356,7 @@ output multipart/form-data
 			headers: {
 				"Content-Disposition": { name: "keyPassphrase" }
 			},
-			content: vars.keyPassphrase
+			content: vars.keyPassphrase default ""
 		}
 	}
 }]]></ee:set-payload>
@@ -376,7 +376,7 @@ output multipart/form-data
 						<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="upload-keystore-http-err-001">
 							<logger level="WARN" doc:name="Partner Manager keystore API error" doc:id="upload-keystore-err-log-001" message="Partner Manager keystore API error response: status=#[error.attributes.statusCode default 'N/A'], body=#[payload], errorPayload=#[error.payload]" />
 							<set-variable value="#[error.description default error.message default 'Unknown error']" doc:name="errorMessage" doc:id="upload-keystore-err-var-001" variableName="apiErrorMessage" />
-							<set-variable value="#[if (error.detail != null) (error.detail as String default '') else (if (payload is String) payload else if (payload is Object) write(payload, 'application/json') else (error.payload as String default ''))]" doc:name="apiErrorBody" doc:id="upload-keystore-err-body-001" variableName="apiErrorBody" />
+							<set-variable value="#[if (error.detail != null) (error.detail as String default '') else (if (error.payload is String) error.payload else if (error.payload != null) write(error.payload, 'application/json') else '')]" doc:name="apiErrorBody" doc:id="upload-keystore-err-body-001" variableName="apiErrorBody" />
 							<ee:transform doc:name="API error response" doc:id="upload-keystore-err-transform-001">
 								<ee:message>
 									<ee:set-payload><![CDATA[%dw 2.0
