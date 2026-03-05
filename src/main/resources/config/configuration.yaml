@@ -1,0 +1,16 @@
+http:
+  port: "8081"
+  
+https:
+  port: "8083"
+  
+anypoint:
+  platform:
+    login-url: "https://anypoint.mulesoft.com/accounts/api/v2/oauth2/token"
+  connectedapp:
+    client-id: "0b5de8b2e6ae4f99b363d815c3e0298b"
+    client-secret: "5Cae5861Ac9849F98c61b3785915B466"
+  apm:
+   url-prefix: "https://anypoint.mulesoft.com/partnermanager"
+   orgid: "43b555db-2264-4ed5-9c81-d456ba81aaa7"
+   envid: "e8c50b0b-cfb9-4635-972e-018b67ea5ea1"
