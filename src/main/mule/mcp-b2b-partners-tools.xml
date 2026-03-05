@@ -253,6 +253,212 @@ write(payload, "application/json")]]></ee:set-payload>
 		</error-handler>
 		</try>
 	</flow>
+	<flow name="mcp-b2b-partner-upload-keystore-Flow" doc:id="upload-keystore-flow-001" >
+		<mcp:tool-listener doc:name="upload-b2b-partner-keystore" doc:id="upload-keystore-tool-001" config-ref="MCP_Server_PartnersAPI" name="upload-b2b-partner-keystore">
+			<reconnect-forever />
+			<mcp:description><![CDATA[Upload an AS2 host keystore (PEM keypair) for a partner in Partner Manager. Returns secretId, secretGroupId, and certificateId for use as hostKeystoreId when creating AS2 Receive endpoints. Partner must already exist; use the exact partner name from Partner Manager.]]></mcp:description>
+			<mcp:parameters-schema><![CDATA[{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "partnerName": { "type": "string", "description": "Partner profile name in Partner Manager (must already exist)" },
+    "keystoreName": { "type": "string", "description": "Unique name for the keystore (e.g. PartnerKeystore.jks)" },
+    "type": { "type": "string", "description": "Keystore type; use PEM", "default": "PEM" },
+    "publicCertificatePem": { "type": "string", "description": "Public certificate content in PEM format" },
+    "privateKeyPem": { "type": "string", "description": "Private key content in PEM format" },
+    "keyPassphrase": { "type": "string", "description": "Passphrase for the private key file" }
+  },
+  "required": ["partnerName", "keystoreName", "publicCertificatePem", "privateKeyPem", "keyPassphrase"]
+}]]></mcp:parameters-schema>
+			<mcp:responses>
+				<mcp:text-tool-response-content text="#[(payload.^raw default payload) default '']" />
+			</mcp:responses>
+		</mcp:tool-listener>
+		<try doc:name="Try" doc:id="upload-keystore-flow-try-001">
+		<logger level="INFO" doc:name="Logger" doc:id="upload-keystore-log-001" message="Upload keystore: partnerName=#[payload.partnerName], keystoreName=#[payload.keystoreName]" />
+		<ee:transform doc:name="Normalize keystore input" doc:id="upload-keystore-reqname-001">
+			<ee:variables>
+				<ee:set-variable variableName="requestPartnerName"><![CDATA[%dw 2.0
+output application/java
+---
+if (payload.partnerName is Array) payload.partnerName[0] else payload.partnerName]]></ee:set-variable>
+				<ee:set-variable variableName="keystoreName"><![CDATA[%dw 2.0
+output application/java
+---
+payload.keystoreName]]></ee:set-variable>
+				<ee:set-variable variableName="keystoreType"><![CDATA[%dw 2.0
+output application/java
+---
+payload.'type' default "PEM"]]></ee:set-variable>
+				<ee:set-variable variableName="publicCertificatePem"><![CDATA[%dw 2.0
+output application/java
+---
+payload.publicCertificatePem]]></ee:set-variable>
+				<ee:set-variable variableName="privateKeyPem"><![CDATA[%dw 2.0
+output application/java
+---
+payload.privateKeyPem]]></ee:set-variable>
+				<ee:set-variable variableName="keyPassphrase"><![CDATA[%dw 2.0
+output application/java
+---
+payload.keyPassphrase]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<flow-ref doc:name="retrieve_anypointAccessToken" doc:id="upload-keystore-token-001" name="retrieve_anypointAccessToken_Sub_Flow" />
+		<until-successful maxRetries="1" doc:name="Until Successful" doc:id="upload-keystore-until-001" millisBetweenRetries="10000">
+			<try doc:name="Try" doc:id="upload-keystore-try-001">
+				<os:retrieve doc:name="Retrieve" doc:id="upload-keystore-os-001" key="apmPartnerProfiles" objectStore="Object_store_APM_Configs" />
+				<set-variable value="#[payload]" doc:name="apmPartners" doc:id="upload-keystore-set-001" variableName="apmPartners" />
+				<error-handler>
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="upload-keystore-err-001">
+						<flow-ref doc:name="Sync Partner Profiles" doc:id="upload-keystore-sync-001" name="apm-sync-configs-partnerprofiles-Flow"/>
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</until-successful>
+		<set-variable value="#[output application/java --- vars.apmPartners[?($.partnerName == vars.requestPartnerName)].partnerId[0]]" doc:name="partnerId" doc:id="upload-keystore-partnerid-001" variableName="partnerId" />
+		<choice doc:name="Partner found?" doc:id="upload-keystore-choice-001">
+			<when expression="#[vars.partnerId != null]">
+				<ee:transform doc:name="Build keystore multipart body" doc:id="upload-keystore-dwl-001">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output multipart/form-data
+---
+{
+	parts: {
+		'type': {
+			headers: {
+				"Content-Disposition": { name: "type" }
+			},
+			content: vars.keystoreType
+		},
+		name: {
+			headers: {
+				"Content-Disposition": { name: "name" }
+			},
+			content: vars.keystoreName
+		},
+		certificateFile: {
+			headers: {
+				"Content-Disposition": { name: "certificateFile", filename: "certificate.pem" },
+				"Content-Type": "application/x-pem-file"
+			},
+			content: vars.publicCertificatePem as Binary
+		},
+		keyFile: {
+			headers: {
+				"Content-Disposition": { name: "keyFile", filename: "key.pem" },
+				"Content-Type": "application/x-pem-file"
+			},
+			content: vars.privateKeyPem as Binary
+		},
+		keyPassphrase: {
+			headers: {
+				"Content-Disposition": { name: "keyPassphrase" }
+			},
+			content: vars.keyPassphrase
+		}
+	}
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<try doc:name="Try" doc:id="upload-keystore-try-http-001">
+					<http:request method="POST" doc:name="Create partner keystore" doc:id="upload-keystore-http-001" url="#[p('anypoint.apm.url-prefix') ++ '/partners/api/v1/organizations/' ++ p('anypoint.apm.orgid') ++ '/environments/' ++ p('anypoint.apm.envid') ++ '/partners/' ++ vars.partnerId ++ '/keystores']">
+						<reconnect-forever />
+						<http:headers><![CDATA[#[output application/java
+---
+{
+	"Authorization" : "Bearer " ++ vars.sessionToken
+}]]]></http:headers>
+					</http:request>
+					<logger level="INFO" doc:name="Partner Manager API response" doc:id="apm-resp-create-keystore-001" message="Partner Manager API response: operation=create-keystore, status=#[attributes.statusCode], secretId=#[payload.secretId default 'N/A']" />
+					<error-handler>
+						<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="upload-keystore-http-err-001">
+							<logger level="WARN" doc:name="Partner Manager keystore API error" doc:id="upload-keystore-err-log-001" message="Partner Manager keystore API error response: status=#[error.attributes.statusCode default 'N/A'], body=#[payload], errorPayload=#[error.payload]" />
+							<set-variable value="#[error.description default error.message default 'Unknown error']" doc:name="errorMessage" doc:id="upload-keystore-err-var-001" variableName="apiErrorMessage" />
+							<set-variable value="#[if (error.detail != null) (error.detail as String default '') else (if (payload is String) payload else if (payload is Object) write(payload, 'application/json') else (error.payload as String default ''))]" doc:name="apiErrorBody" doc:id="upload-keystore-err-body-001" variableName="apiErrorBody" />
+							<ee:transform doc:name="API error response" doc:id="upload-keystore-err-transform-001">
+								<ee:message>
+									<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	secretId: null,
+	secretGroupId: null,
+	certificateId: null,
+	error: "Keystore upload failed: " ++ vars.apiErrorMessage ++ ". Check partner name, PEM content, passphrase, and API docs.",
+	apiResponse: vars.apiErrorBody default null
+}]]></ee:set-payload>
+								</ee:message>
+							</ee:transform>
+						</on-error-continue>
+					</error-handler>
+				</try>
+				<ee:transform doc:name="Format keystore response" doc:id="upload-keystore-resp-001">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+if (payload.error != null) payload
+else {
+	secretId: payload.secretId,
+	secretGroupId: payload.secretGroupId,
+	certificateId: payload.certificateId,
+	partnerId: vars.partnerId,
+	partnerName: vars.requestPartnerName,
+	keystoreName: vars.keystoreName,
+	note: "Use certificateId (or secretId) as hostKeystoreId when creating AS2 Receive endpoints."
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<ee:transform doc:name="To text response" doc:id="upload-keystore-text-001">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output text/plain
+---
+write(payload, "application/json")]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise>
+				<ee:transform doc:name="Partner not found response" doc:id="upload-keystore-notfound-001">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output text/plain
+---
+"Partner not found: " ++ (vars.requestPartnerName default "unknown") ++ ". Create the partner first with create-b2b-partner-profile or check the name."]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+		<error-handler>
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="upload-keystore-flow-err-001">
+				<set-variable value="#[error.description default error.message default 'Unknown error']" doc:name="errorMessage" doc:id="upload-keystore-flow-err-var-001" variableName="flowErrorMessage" />
+				<ee:transform doc:name="Flow error response" doc:id="upload-keystore-flow-err-transform-001">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	secretId: null,
+	secretGroupId: null,
+	certificateId: null,
+	error: "Keystore upload failed: " ++ vars.flowErrorMessage
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<ee:transform doc:name="Flow error to text" doc:id="upload-keystore-flow-err-text-001">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output text/plain
+---
+write(payload, "application/json")]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</on-error-continue>
+		</error-handler>
+		</try>
+	</flow>
 	<flow name="mcp-b2b-partner-getpartnerprofiles-Flow" doc:id="e7b8094b-f783-42d7-9e40-f234e7a53b8c" >
 		<mcp:tool-listener doc:name="get-b2b-partner-profiles" doc:id="61ec66b1-b2ff-4c71-bd5a-16e39446dfba" config-ref="MCP_Server_PartnersAPI" name="get-b2b-partner-profiles">
 			<reconnect-forever />

@@ -142,6 +142,30 @@
 						},
 						"description": "Create a digital certificate for a partner (multipart/form-data: certType, certName, certFile). Set partner_id to a valid partner UUID. Returns created certificate with id (use as partnerCertificateId in create-b2b-endpoints for AS2 Send). Mirrors upload-b2b-partner-certificate MCP tool."
 					}
+				},
+				{
+					"name": "POST Create Partner Keystore",
+					"request": {
+						"auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{access_token}}", "type": "string" }] },
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{ "key": "type", "value": "PEM", "type": "text", "description": "Keystore type (PEM)" },
+								{ "key": "name", "value": "PartnerKeystore.jks", "type": "text", "description": "Unique keystore name" },
+								{ "key": "keyFile", "type": "file", "src": "", "description": "Private key PEM file" },
+								{ "key": "certificateFile", "type": "file", "src": "", "description": "Public certificate PEM file" },
+								{ "key": "keyPassphrase", "value": "", "type": "text", "description": "Passphrase for the private key" }
+							]
+						},
+						"url": {
+							"raw": "{{base_apm}}/partners/api/v1/organizations/{{org_id}}/environments/{{env_id}}/partners/{{partner_id}}/keystores",
+							"host": ["{{base_apm}}"],
+							"path": ["partners", "api", "v1", "organizations", "{{org_id}}", "environments", "{{env_id}}", "partners", "{{partner_id}}", "keystores"]
+						},
+						"description": "Create a partner keystore (multipart/form-data: type, name, keyFile, certificateFile, keyPassphrase). Set partner_id to a valid partner UUID. Returns secretId, secretGroupId, certificateId (use certificateId as hostKeystoreId for AS2 Receive). Mirrors upload-b2b-partner-keystore MCP tool. API spec: Partner Manager v2 Partners API method 9784."
+					}
 				}
 			]
 		},

@@ -50,3 +50,6 @@ velocity.log
 # ACB defaults #
 # ------------------------------------------------------------------------------ #
 .tooling-project
+
+# Local Partner Manager / Anypoint config (may contain secrets)
+src/main/resources/config/configuration.yaml

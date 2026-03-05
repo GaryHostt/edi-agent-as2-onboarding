@@ -8,9 +8,9 @@ anypoint:
   platform:
     login-url: "https://anypoint.mulesoft.com/accounts/api/v2/oauth2/token"
   connectedapp:
-    client-id: "0ca4626be26f46d6b6ab359bc29f65ac"
-    client-secret: "02CB8f16b512487a85680a68fF5b2cbc"
+    client-id: "a8ffdfe116af47f08db6c7a8ff9673e4"
+    client-secret: "7845673a7C594B21bF0d28B817978Dcd"
   apm:
    url-prefix: "https://anypoint.mulesoft.com/partnermanager"
-   orgid: "5f5d5d1d-a1ee-49f3-acb4-5a8bb50f7f8d"
-   envid: "edbe4a2c-dc27-4f34-86d1-38dc0e4580e6"
+   orgid: "43b555db-2264-4ed5-9c81-d456ba81aaa7"
+   envid: "e8c50b0b-cfb9-4635-972e-018b67ea5ea1"

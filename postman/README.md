@@ -33,6 +33,10 @@ Direct calls to **Anypoint Platform** and **Partner Manager** REST APIs (same en
 - **Endpoints:** POST Create Endpoint (example SFTP body; replace with AS2 payload for AS2 discovery).
 - **Config & Tracking:** GET Custom Attributes, GET Tracking Activity Messages.
 
+### API references
+
+- [Partner Manager v2 Partners API – Create partner keystore (method 9784)](https://anypoint.mulesoft.com/exchange/portals/anypoint-platform/f1e97bc6-315a-4490-82a7-23abe036327a.anypoint-platform/partner-manager-v2-partners-api/minor/1.0/console/method/%239784/) – API spec for the **upload-b2b-partner-keystore** flow.
+
 Do not commit real `client_secret` or tokens. Use Postman environment variables for secrets.
 
 ---
